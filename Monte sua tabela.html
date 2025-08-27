@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte sua tabela - @studies_lala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Indie+Flower&family=Arial&family=Georgia&family=Verdana&family=Trebuchet+MS&family=Courier+New&family=Pacifico&family=Quicksand&family=Dancing+Script&family=Architects+Daughter&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --cor-fundo-pagina: #f8d7da;
+            --cor-fundo-tabela: #ec407a;
+            --cor-divisorias: #ad1457;
+            --cor-letras: #880e4f;
+            --cor-cabecalho: #c2185b;
+            --cor-letras-cabecalho: white;
+            --cor-titulo: #880e4f;
+            --cor-assinatura: #880e4f;
+            --fonte-tabela: 'Comic Neue', cursive;
+        }
+        
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--cor-fundo-pagina);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--cor-letras);
+            font-family: 'Indie Flower', cursive;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .controls-panel {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .color-input-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .color-picker-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            cursor: pointer;
+            color: #555;
+        }
+        
+        .color-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .control-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .font-sample {
+            font-size: 12px;
+            margin-top: 5px;
+            color: #777;
+            font-style: italic;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .checkbox-group label {
+            font-weight: bold;
+            color: #555;
+            cursor: pointer;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            background-color: var(--cor-cabecalho);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0 10px 10px 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .btn:hover {
+            background-color: var(--cor-divisorias);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-print {
+            background-color: #28a745;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+        }
+        
+        .btn-print:hover {
+            background-color: #218838;
+        }
+        
+        .btn-back {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .btn-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            font-size: 14px;
+            display: none;
+            z-index: 1000;
+            background-color: #17a2b8;
+        }
+        
+        .btn-info:hover {
+            background-color: #138496;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 5px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        table {
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--cor-fundo-tabela);
+            border: 2px solid var(--cor-divisorias);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        
+        th, td {
+            border: 1px solid var(--cor-divisorias);
+            padding: 12px;
+            text-align: center;
+            color: var(--cor-letras);
+            font-family: var(--fonte-tabela);
+            min-width: 100px;
+        }
+        
+        th {
+            background-color: var(--cor-cabecalho);
+            color: var(--cor-letras-cabecalho);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        td {
+            background-color: var(--cor-fundo-tabela);
+        }
+        
+        /* Cabeçalho especial (primeira linha e primeira coluna) */
+        .special-header th {
+            background-color: var(--cor-cabecalho);
+            color: var(--cor-letras-cabecalho);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        .special-header td:first-child {
+            background-color: var(--cor-cabecalho);
+            color: var(--cor-letras-cabecalho);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        /* Linhas intercaladas - excluindo a primeira coluna */
+        .striped-rows tr:nth-child(even) td:not(:first-child) {
+            background-color: #f06292;
+        }
+        
+        tr:hover td:not(:first-child) {
+            background-color: #f48fb1;
+        }
+        
+        .custom-title {
+            text-align: center;
+            color: var(--cor-titulo);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-family: 'Indie Flower', cursive;
+            font-weight: 700;
+            font-size: 2.2em;
+            width: 100%;
+            outline: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .custom-title:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .custom-footer {
+            text-align: center;
+            color: var(--cor-assinatura);
+            font-weight: 700;
+            font-family: 'Indie Flower', cursive;
+            margin-top: 10px;
+            width: 100%;
+            outline: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .custom-footer:focus {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .print-mode .controls-panel,
+        .print-mode h1,
+        .print-mode .actions {
+            display: none;
+        }
+        
+        .print-mode .btn-back,
+        .print-mode .btn-info {
+            display: block;
+        }
+        
+        .info-box {
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+        
+        .info-box.show {
+            display: block;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--cor-divisorias);
+            border-bottom: 2px solid var(--cor-divisorias);
+            padding-bottom: 5px;
+            margin: 20px 0 15px;
+            font-weight: bold;
+        }
+        
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Monte sua Tabela - @studies_lala</h1>
+        
+        <div class="controls-panel">
+            <div class="section-title">Configurações de Cores</div>
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="bgPage">Cor de Fundo da Página</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('bgPage').click()"></i>
+                        <input type="color" id="bgPage" value="#f8d7da" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="bgCells">Cor de Fundo das Células</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('bgCells').click()"></i>
+                        <input type="color" id="bgCells" value="#ec407a" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="borderColor">Cor das Divisórias</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('borderColor').click()"></i>
+                        <input type="color" id="borderColor" value="#ad1457" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="textColor">Cor das Letras</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('textColor').click()"></i>
+                        <input type="color" id="textColor" value="#880e4f" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="titleColor">Cor do Título</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('titleColor').click()"></i>
+                        <input type="color" id="titleColor" value="#880e4f" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="footerColor">Cor da Assinatura</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('footerColor').click()"></i>
+                        <input type="color" id="footerColor" value="#880e4f" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="headerBgColor">Cor do Cabeçalho</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('headerBgColor').click()"></i>
+                        <input type="color" id="headerBgColor" value="#c2185b" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <label for="headerTextColor">Cor do Texto do Cabeçalho</label>
+                    <div class="color-input-container">
+                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('headerTextColor').click()"></i>
+                        <input type="color" id="headerTextColor" value="#ffffff" onchange="applyStyles()" class="color-input">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Configurações de Estilo</div>
+            <div class="controls-grid">
+                <div class="control-group">
+                    <label for="fontFamily">Fonte do Texto</label>
+                    <select id="fontFamily" onchange="applyStyles()">
+                        <option value="'Comic Neue', cursive" selected>Comic Neue</option>
+                        <option value="'Indie Flower', cursive">Indie Flower</option>
+                        <option value="'Pacifico', cursive">Pacifico</option>
+                        <option value="'Quicksand', sans-serif">Quicksand</option>
+                        <option value="'Dancing Script', cursive">Dancing Script</option>
+                        <option value="'Architects Daughter', cursive">Architects Daughter</option>
+                        <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                        <option value="'Courier New', monospace">Courier New</option>
+                    </select>
+                    <div class="font-sample" id="fontSample">@studies_lala - Amostra de texto</div>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="hasTitle" checked onchange="toggleTitle()">
+                    <label for="hasTitle">Mostrar Título</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="hasFooter" checked onchange="toggleFooter()">
+                    <label for="hasFooter">Mostrar Assinatura</label>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="stripedRows" checked onchange="applyStyles()">
+                    <label for="stripedRows">Tons Intercalados</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <div id="customTitle" class="custom-title" contenteditable="true">Sua Tabela</div>
+            
+            <table id="editableTable" class="special-header striped-rows">
+                <thead>
+                    <tr>
+                        <th contenteditable="true">Cabeçalho 1</th>
+                        <th contenteditable="true">Cabeçalho 2</th>
+                        <th contenteditable="true">Cabeçalho 3</th>
+                        <th contenteditable="true">Cabeçalho 4</th>
+                        <th contenteditable="true">Cabeçalho 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">Linha 1 Col 1</td>
+                        <td contenteditable="true">Linha 1 Col 2</td>
+                        <td contenteditable="true">Linha 1 Col 3</td>
+                        <td contenteditable="true">Linha 1 Col 4</td>
+                        <td contenteditable="true">Linha 1 Col 5</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">Linha 2 Col 1</td>
+                        <td contenteditable="true">Linha 2 Col 2</td>
+                        <td contenteditable="true">Linha 2 Col 3</td>
+                        <td contenteditable="true">Linha 2 Col 4</td>
+                        <td contenteditable="true">Linha 2 Col 5</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">Linha 3 Col 1</td>
+                        <td contenteditable="true">Linha 3 Col 2</td>
+                        <td contenteditable="true">Linha 3 Col 3</td>
+                        <td contenteditable="true">Linha 3 Col 4</td>
+                        <td contenteditable="true">Linha 3 Col 5</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div id="customFooter" class="custom-footer" contenteditable="true">@studies_lala</div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn" onclick="addRow()"><i class="fas fa-plus"></i> Adicionar Linha</button>
+            <button class="btn" onclick="addColumn()"><i class="fas fa-plus"></i> Adicionar Coluna</button>
+            <button class="btn" onclick="removeRow()"><i class="fas fa-minus"></i> Remover Linha</button>
+            <button class="btn" onclick="removeColumn()"><i class="fas fa-minus"></i> Remover Coluna</button>
+            <button class="btn btn-print" onclick="togglePrintMode()"><i class="fas fa-camera"></i> Hora do Print</button>
+        </div>
+        
+        <button class="btn btn-back" id="backButton" onclick="togglePrintMode()"><i class="fas fa-arrow-left"></i> Voltar</button>
+        <button class="btn btn-info" id="infoButton" onclick="toggleInfo()"><i class="fas fa-info-circle"></i></button>
+        
+        <div class="info-box" id="infoBox">
+            <p><strong>Para tirar um print pelo computador:</strong></p>
+            <p>Pressione: <kbd>Windows + Shift + S</kbd> e selecione a área desejada para o print.</p>
+            <p>Para ampliar a tabela, aumente o zoom da página nas configurações do navegador.</p>
+        </div>
+    </div>
+
+    <script>
+        // Função para converter hex para RGB
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        
+        // Função para escurecer uma cor
+        function darkenColor(hex, percent) {
+            const rgb = hexToRgb(hex);
+            if (!rgb) return hex;
+            
+            const r = Math.max(0, Math.min(255, Math.floor(rgb.r * (100 - percent) / 100)));
+            const g = Math.max(0, Math.min(255, Math.floor(rgb.g * (100 - percent) / 100)));
+            const b = Math.max(0, Math.min(255, Math.floor(rgb.b * (100 - percent) / 100)));
+            
+            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+        }
+        
+        // Função para aplicar os estilos personalizados
+        function applyStyles() {
+            // Atualizar variáveis CSS
+            document.documentElement.style.setProperty('--cor-fundo-pagina', document.getElementById('bgPage').value);
+            document.documentElement.style.setProperty('--cor-fundo-tabela', document.getElementById('bgCells').value);
+            document.documentElement.style.setProperty('--cor-divisorias', document.getElementById('borderColor').value);
+            document.documentElement.style.setProperty('--cor-letras', document.getElementById('textColor').value);
+            document.documentElement.style.setProperty('--cor-titulo', document.getElementById('titleColor').value);
+            document.documentElement.style.setProperty('--cor-assinatura', document.getElementById('footerColor').value);
+            document.documentElement.style.setProperty('--fonte-tabela', document.getElementById('fontFamily').value);
+            
+            // Atualizar o cabeçalho (primeira linha e primeira coluna)
+            document.documentElement.style.setProperty('--cor-cabecalho', document.getElementById('headerBgColor').value);
+            document.documentElement.style.setProperty('--cor-letras-cabecalho', document.getElementById('headerTextColor').value);
+            
+            // Atualizar a amostra de fonte
+            const fontFamily = document.getElementById('fontFamily').value;
+            document.getElementById('fontSample').style.fontFamily = fontFamily;
+            
+            // Aplicar tons intercalados
+            const stripedRows = document.getElementById('stripedRows').checked;
+            const table = document.getElementById('editableTable');
+            
+            if (stripedRows) {
+                table.classList.add('striped-rows');
+                // Aplicar cor mais escura para linhas pares (excluindo a primeira coluna)
+                const baseColor = document.getElementById('bgCells').value;
+                const darkerColor = darkenColor(baseColor, 15);
+                
+                const style = document.getElementById('custom-striped-style') || document.createElement('style');
+                style.id = 'custom-striped-style';
+                style.textContent = `
+                    .striped-rows tr:nth-child(even) td:not(:first-child) {
+                        background-color: ${darkerColor} !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            } else {
+                table.classList.remove('striped-rows');
+            }
+        }
+        
+        // Funções para adicionar/remover linhas e colunas
+        function addRow() {
+            const tbody = document.querySelector('#editableTable tbody');
+            const columns = document.querySelector('#editableTable thead tr').cells.length;
+            const newRow = tbody.insertRow();
+            
+            for (let i = 0; i < columns; i++) {
+                const cell = newRow.insertCell();
+                cell.contentEditable = true;
+                if (i === 0) {
+                    cell.textContent = `Nova Linha`;
+                } else {
+                    cell.textContent = `Col ${i+1}`;
+                }
+            }
+            
+            applyStyles();
+        }
+        
+        function addColumn() {
+            const headerRow = document.querySelector('#editableTable thead tr');
+            const bodyRows = document.querySelectorAll('#editableTable tbody tr');
+            const newColIndex = headerRow.cells.length;
+            
+            // Adicionar célula de cabeçalho
+            const newHeaderCell = document.createElement('th');
+            newHeaderCell.contentEditable = true;
+            newHeaderCell.textContent = `Novo ${newColIndex+1}`;
+            headerRow.appendChild(newHeaderCell);
+            
+            // Adicionar células no corpo
+            bodyRows.forEach((row, index) => {
+                const newCell = row.insertCell();
+                newCell.contentEditable = true;
+                newCell.textContent = `Novo`;
+            });
+            
+            applyStyles();
+        }
+        
+        function removeRow() {
+            const tbody = document.querySelector('#editableTable tbody');
+            if (tbody.rows.length > 1) {
+                tbody.deleteRow(-1);
+            }
+        }
+        
+        function removeColumn() {
+            const headerRow = document.querySelector('#editableTable thead tr');
+            const bodyRows = document.querySelectorAll('#editableTable tbody tr');
+            
+            if (headerRow.cells.length > 1) {
+                // Remover do cabeçalho
+                headerRow.deleteCell(-1);
+                
+                // Remover do corpo
+                bodyRows.forEach(row => {
+                    row.deleteCell(-1);
+                });
+            }
+        }
+        
+        // Funções para mostrar/ocultar título e rodapé
+        function toggleTitle() {
+            const hasTitle = document.getElementById('hasTitle').checked;
+            const titleElement = document.getElementById('customTitle');
+            
+            if (hasTitle) {
+                titleElement.style.display = 'block';
+            } else {
+                titleElement.style.display = 'none';
+            }
+        }
+        
+        function toggleFooter() {
+            const hasFooter = document.getElementById('hasFooter').checked;
+            const footerElement = document.getElementById('customFooter');
+            
+            if (hasFooter) {
+                footerElement.style.display = 'block';
+            } else {
+                footerElement.style.display = 'none';
+            }
+        }
+        
+        // Modo de impressão
+        function togglePrintMode() {
+            document.body.classList.toggle('print-mode');
+            // Esconder a caixa de informação se estiver visível
+            document.getElementById('infoBox').classList.remove('show');
+        }
+        
+        // Mostrar/ocultar informação
+        function toggleInfo() {
+            document.getElementById('infoBox').classList.toggle('show');
+        }
+        
+        // Inicializar a página
+        window.onload = function() {
+            // Remover a opção de cabeçalho diferente (não é mais necessária)
+            const specialHeaderCheckbox = document.getElementById('specialHeader');
+            if (specialHeaderCheckbox) {
+                specialHeaderCheckbox.parentElement.remove();
+            }
+            
+            // Aplicar estilos iniciais
+            toggleTitle();
+            toggleFooter();
+            applyStyles();
+        };
+    </script>
+</body>
+</html>
