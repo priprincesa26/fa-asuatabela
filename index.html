@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monte sua tabela - @studies_lala</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Indie+Flower&family=Arial&family=Georgia&family=Verdana&family=Trebuchet+MS&family=Courier+New&family=Pacifico&family=Quicksand&family=Dancing+Script&family=Architects+Daughter&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <!-- CORREÇÃO: Removi as fontes do sistema da importação do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Indie+Flower&family=Pacifico&family=Quicksand&family=Dancing+Script&family=Architects+Daughter&family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --cor-fundo-pagina: #f8d7da;
-            --cor-fundo-tabela: #ec407a;
-            --cor-divisorias: #ad1457;
-            --cor-letras: #880e4f;
-            --cor-cabecalho: #c2185b;
-            --cor-letras-cabecalho: white;
-            --cor-titulo: #880e4f;
-            --cor-assinatura: #880e4f;
+            --cor-fundo-pagina: #F5EBFF;
+            --cor-fundo-tabela: #F8F2FF;
+            --cor-divisorias: #4B0082;
+            --cor-letras: #4A2568;
+            --cor-cabecalho: #9370DB;
+            --cor-letras-cabecalho: #FFFFFF;
+            --cor-titulo: #4A2568;
+            --cor-assinatura: #9370DB;
             --fonte-tabela: 'Comic Neue', cursive;
         }
         
@@ -274,11 +275,11 @@
         
         /* Linhas intercaladas - excluindo a primeira coluna */
         .striped-rows tr:nth-child(even) td:not(:first-child) {
-            background-color: #f06292;
+            background-color: #e6d6ff;
         }
         
         tr:hover td:not(:first-child) {
-            background-color: #f48fb1;
+            background-color: #e0ccff;
         }
         
         .custom-title {
@@ -373,10 +374,10 @@
                     <div class="color-input-container" onclick="document.getElementById('bgPage').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="bgPageCode">#f8d7da</span>
-                            <div class="color-preview" id="bgPagePreview" style="background-color: #f8d7da"></div>
+                            <span class="color-code" id="bgPageCode">#F5EBFF</span>
+                            <div class="color-preview" id="bgPagePreview" style="background-color: #F5EBFF"></div>
                         </div>
-                        <input type="color" id="bgPage" value="#f8d7da" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="bgPage" value="#F5EBFF" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -385,10 +386,10 @@
                     <div class="color-input-container" onclick="document.getElementById('bgCells').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="bgCellsCode">#ec407a</span>
-                            <div class="color-preview" id="bgCellsPreview" style="background-color: #ec407a"></div>
+                            <span class="color-code" id="bgCellsCode">#F8F2FF</span>
+                            <div class="color-preview" id="bgCellsPreview" style="background-color: #F8F2FF"></div>
                         </div>
-                        <input type="color" id="bgCells" value="#ec407a" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="bgCells" value="#F8F2FF" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -397,10 +398,10 @@
                     <div class="color-input-container" onclick="document.getElementById('borderColor').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="borderColorCode">#ad1457</span>
-                            <div class="color-preview" id="borderColorPreview" style="background-color: #ad1457"></div>
+                            <span class="color-code" id="borderColorCode">#4B0082</span>
+                            <div class="color-preview" id="borderColorPreview" style="background-color: #4B0082"></div>
                         </div>
-                        <input type="color" id="borderColor" value="#ad1457" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="borderColor" value="#4B0082" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -409,10 +410,10 @@
                     <div class="color-input-container" onclick="document.getElementById('textColor').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="textColorCode">#880e4f</span>
-                            <div class="color-preview" id="textColorPreview" style="background-color: #880e4f"></div>
+                            <span class="color-code" id="textColorCode">#4A2568</span>
+                            <div class="color-preview" id="textColorPreview" style="background-color: #4A2568"></div>
                         </div>
-                        <input type="color" id="textColor" value="#880e4f" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="textColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -421,10 +422,10 @@
                     <div class="color-input-container" onclick="document.getElementById('titleColor').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="titleColorCode">#880e4f</span>
-                            <div class="color-preview" id="titleColorPreview" style="background-color: #880e4f"></div>
+                            <span class="color-code" id="titleColorCode">#4A2568</span>
+                            <div class="color-preview" id="titleColorPreview" style="background-color: #4A2568"></div>
                         </div>
-                        <input type="color" id="titleColor" value="#880e4f" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="titleColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -433,10 +434,10 @@
                     <div class="color-input-container" onclick="document.getElementById('footerColor').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="footerColorCode">#880e4f</span>
-                            <div class="color-preview" id="footerColorPreview" style="background-color: #880e4f"></div>
+                            <span class="color-code" id="footerColorCode">#9370DB</span>
+                            <div class="color-preview" id="footerColorPreview" style="background-color: #9370DB"></div>
                         </div>
-                        <input type="color" id="footerColor" value="#880e4f" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="footerColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -445,10 +446,10 @@
                     <div class="color-input-container" onclick="document.getElementById('headerBgColor').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="headerBgColorCode">#c2185b</span>
-                            <div class="color-preview" id="headerBgColorPreview" style="background-color: #c2185b"></div>
+                            <span class="color-code" id="headerBgColorCode">#9370DB</span>
+                            <div class="color-preview" id="headerBgColorPreview" style="background-color: #9370DB"></div>
                         </div>
-                        <input type="color" id="headerBgColor" value="#c2185b" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="headerBgColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
@@ -457,10 +458,10 @@
                     <div class="color-input-container" onclick="document.getElementById('headerTextColor').click()">
                         <i class="fas fa-palette color-picker-icon"></i>
                         <div class="color-display">
-                            <span class="color-code" id="headerTextColorCode">#ffffff</span>
-                            <div class="color-preview" id="headerTextColorPreview" style="background-color: #ffffff"></div>
+                            <span class="color-code" id="headerTextColorCode">#FFFFFF</span>
+                            <div class="color-preview" id="headerTextColorPreview" style="background-color: #FFFFFF"></div>
                         </div>
-                        <input type="color" id="headerTextColor" value="#ffffff" onchange="updateColorDisplay(this)" class="color-input">
+                        <input type="color" id="headerTextColor" value="#FFFFFF" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
             </div>
@@ -477,6 +478,7 @@
                         <option value="'Dancing Script', cursive">Dancing Script</option>
                         <option value="'Architects Daughter', cursive">Architects Daughter</option>
                         <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
+                        <!-- CORREÇÃO: Mantive as fontes do sistema apenas como fallback -->
                         <option value="Arial, sans-serif">Arial</option>
                         <option value="Georgia, serif">Georgia</option>
                         <option value="Verdana, sans-serif">Verdana</option>
@@ -557,7 +559,7 @@
         
         <div class="info-box" id="infoBox">
             <p><strong>Para tirar um print pelo computador:</strong></p>
-            <p>Pressione: <kbd>Windows + Shift + S</kbd> e selecione a área desejada para the print.</p>
+            <p>Pressione: <kbd>Windows + Shift + S</kbd> and select the desired area.</p>
             <p>Para ampliar a tabela, aumente o zoom da página nas configurações do navegador.</p>
         </div>
     </div>
@@ -727,7 +729,7 @@
             }
         }
         
-        // Funções para mostrar/ocultar título e rodapé
+        // Funções para mostrar/ocultar título and rodapé
         function toggleTitle() {
             const hasTitle = document.getElementById('hasTitle').checked;
             const titleElement = document.getElementById('customTitle');
@@ -772,5 +774,6 @@
     </script>
 </body>
 </html>
+
 
 
