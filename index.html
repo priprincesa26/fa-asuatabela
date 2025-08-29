@@ -83,21 +83,44 @@
         .color-input-container {
             display: flex;
             align-items: center;
+            gap: 10px;
+            cursor: pointer;
         }
         
         .color-picker-icon {
             font-size: 24px;
-            margin-right: 10px;
-            cursor: pointer;
             color: #555;
         }
         
-        .color-input {
+        .color-display {
+            display: flex;
+            align-items: center;
             flex: 1;
-            padding: 8px;
+            background: white;
             border: 1px solid #ddd;
             border-radius: 4px;
-            cursor: pointer;
+            padding: 0 10px;
+            height: 40px;
+            justify-content: space-between;
+        }
+        
+        .color-code {
+            font-family: monospace;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .color-preview {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        
+        .color-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
         }
         
         .control-group select {
@@ -204,12 +227,9 @@
         }
         
         table {
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
             background: var(--cor-fundo-tabela);
-            border: 2px solid var(--cor-divisorias);
-            border-radius: 15px;
-            overflow: hidden;
+            border: 1px solid var(--cor-divisorias);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             margin: 0 auto;
             max-width: 100%;
@@ -222,6 +242,7 @@
             color: var(--cor-letras);
             font-family: var(--fonte-tabela);
             min-width: 100px;
+            font-size: 16px; /* Tamanho fixo para células */
         }
         
         th {
@@ -229,6 +250,7 @@
             color: var(--cor-letras-cabecalho);
             text-transform: uppercase;
             font-weight: 700;
+            font-size: 16px; /* Tamanho fixo para cabeçalhos */
         }
         
         td {
@@ -266,7 +288,7 @@
             margin-bottom: 10px;
             font-family: 'Indie Flower', cursive;
             font-weight: 700;
-            font-size: 2.2em;
+            font-size: 2.2em; /* Tamanho fixo para título */
             width: 100%;
             outline: none;
             padding: 5px;
@@ -280,13 +302,14 @@
         .custom-footer {
             text-align: center;
             color: var(--cor-assinatura);
-            font-weight: 700;
+            font-weight: 400; /* Reduzindo a espessura da fonte */
             font-family: 'Indie Flower', cursive;
-            margin-top: 10px;
+            margin-top: 5px; /* Aproximando mais da tabela */
             width: 100%;
             outline: none;
-            padding: 5px;
+            padding: 3px;
             border-radius: 5px;
+            font-size: 1.2em; /* Reduzindo o tamanho da assinatura */
         }
         
         .custom-footer:focus {
@@ -336,16 +359,6 @@
             margin: 20px 0 15px;
             font-weight: bold;
         }
-        
-        .color-preview {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
     </style>
 </head>
 <body>
@@ -357,65 +370,97 @@
             <div class="controls-grid">
                 <div class="control-group">
                     <label for="bgPage">Cor de Fundo da Página</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('bgPage').click()"></i>
-                        <input type="color" id="bgPage" value="#f8d7da" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('bgPage').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="bgPageCode">#f8d7da</span>
+                            <div class="color-preview" id="bgPagePreview" style="background-color: #f8d7da"></div>
+                        </div>
+                        <input type="color" id="bgPage" value="#f8d7da" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="bgCells">Cor de Fundo das Células</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('bgCells').click()"></i>
-                        <input type="color" id="bgCells" value="#ec407a" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('bgCells').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="bgCellsCode">#ec407a</span>
+                            <div class="color-preview" id="bgCellsPreview" style="background-color: #ec407a"></div>
+                        </div>
+                        <input type="color" id="bgCells" value="#ec407a" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="borderColor">Cor das Divisórias</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('borderColor').click()"></i>
-                        <input type="color" id="borderColor" value="#ad1457" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('borderColor').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="borderColorCode">#ad1457</span>
+                            <div class="color-preview" id="borderColorPreview" style="background-color: #ad1457"></div>
+                        </div>
+                        <input type="color" id="borderColor" value="#ad1457" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="textColor">Cor das Letras</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('textColor').click()"></i>
-                        <input type="color" id="textColor" value="#880e4f" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('textColor').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="textColorCode">#880e4f</span>
+                            <div class="color-preview" id="textColorPreview" style="background-color: #880e4f"></div>
+                        </div>
+                        <input type="color" id="textColor" value="#880e4f" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="titleColor">Cor do Título</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('titleColor').click()"></i>
-                        <input type="color" id="titleColor" value="#880e4f" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('titleColor').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="titleColorCode">#880e4f</span>
+                            <div class="color-preview" id="titleColorPreview" style="background-color: #880e4f"></div>
+                        </div>
+                        <input type="color" id="titleColor" value="#880e4f" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="footerColor">Cor da Assinatura</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('footerColor').click()"></i>
-                        <input type="color" id="footerColor" value="#880e4f" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('footerColor').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="footerColorCode">#880e4f</span>
+                            <div class="color-preview" id="footerColorPreview" style="background-color: #880e4f"></div>
+                        </div>
+                        <input type="color" id="footerColor" value="#880e4f" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="headerBgColor">Cor do Cabeçalho</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('headerBgColor').click()"></i>
-                        <input type="color" id="headerBgColor" value="#c2185b" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('headerBgColor').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="headerBgColorCode">#c2185b</span>
+                            <div class="color-preview" id="headerBgColorPreview" style="background-color: #c2185b"></div>
+                        </div>
+                        <input type="color" id="headerBgColor" value="#c2185b" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
                 
                 <div class="control-group">
                     <label for="headerTextColor">Cor do Texto do Cabeçalho</label>
-                    <div class="color-input-container">
-                        <i class="fas fa-palette color-picker-icon" onclick="document.getElementById('headerTextColor').click()"></i>
-                        <input type="color" id="headerTextColor" value="#ffffff" onchange="applyStyles()" class="color-input">
+                    <div class="color-input-container" onclick="document.getElementById('headerTextColor').click()">
+                        <i class="fas fa-palette color-picker-icon"></i>
+                        <div class="color-display">
+                            <span class="color-code" id="headerTextColorCode">#ffffff</span>
+                            <div class="color-preview" id="headerTextColorPreview" style="background-color: #ffffff"></div>
+                        </div>
+                        <input type="color" id="headerTextColor" value="#ffffff" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
             </div>
@@ -459,44 +504,44 @@
         </div>
         
         <div class="table-container">
-            <div id="customTitle" class="custom-title" contenteditable="true">Sua Tabela</div>
+            <div id="customTitle" class="custom-title" contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Sua Tabela</div>
             
             <table id="editableTable" class="special-header striped-rows">
                 <thead>
                     <tr>
-                        <th contenteditable="true">Cabeçalho 1</th>
-                        <th contenteditable="true">Cabeçalho 2</th>
-                        <th contenteditable="true">Cabeçalho 3</th>
-                        <th contenteditable="true">Cabeçalho 4</th>
-                        <th contenteditable="true">Cabeçalho 5</th>
+                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 1</th>
+                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 2</th>
+                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 3</th>
+                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 4</th>
+                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 5</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td contenteditable="true">Linha 1 Col 1</td>
-                        <td contenteditable="true">Linha 1 Col 2</td>
-                        <td contenteditable="true">Linha 1 Col 3</td>
-                        <td contenteditable="true">Linha 1 Col 4</td>
-                        <td contenteditable="true">Linha 1 Col 5</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 1</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 2</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 3</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 4</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 5</td>
                     </tr>
                     <tr>
-                        <td contenteditable="true">Linha 2 Col 1</td>
-                        <td contenteditable="true">Linha 2 Col 2</td>
-                        <td contenteditable="true">Linha 2 Col 3</td>
-                        <td contenteditable="true">Linha 2 Col 4</td>
-                        <td contenteditable="true">Linha 2 Col 5</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 1</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 2</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 3</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 4</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 5</td>
                     </tr>
                     <tr>
-                        <td contenteditable="true">Linha 3 Col 1</td>
-                        <td contenteditable="true">Linha 3 Col 2</td>
-                        <td contenteditable="true">Linha 3 Col 3</td>
-                        <td contenteditable="true">Linha 3 Col 4</td>
-                        <td contenteditable="true">Linha 3 Col 5</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 1</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 2</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 3</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 4</td>
+                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 5</td>
                     </tr>
                 </tbody>
             </table>
             
-            <div id="customFooter" class="custom-footer" contenteditable="true">@studies_lala</div>
+            <div id="customFooter" class="custom-footer" contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">@studies_lala</div>
         </div>
         
         <div class="actions">
@@ -512,12 +557,30 @@
         
         <div class="info-box" id="infoBox">
             <p><strong>Para tirar um print pelo computador:</strong></p>
-            <p>Pressione: <kbd>Windows + Shift + S</kbd> e selecione a área desejada para o print.</p>
+            <p>Pressione: <kbd>Windows + Shift + S</kbd> e selecione a área desejada para the print.</p>
             <p>Para ampliar a tabela, aumente o zoom da página nas configurações do navegador.</p>
         </div>
     </div>
 
     <script>
+        // Função para colar apenas texto puro
+        function pasteTextOnly(event) {
+            event.preventDefault();
+            const text = (event.clipboardData || window.clipboardData).getData('text/plain');
+            document.execCommand('insertText', false, text);
+        }
+        
+        // Função para atualizar a exibição da cor
+        function updateColorDisplay(input) {
+            const colorCodeElement = document.getElementById(input.id + 'Code');
+            const colorPreviewElement = document.getElementById(input.id + 'Preview');
+            
+            colorCodeElement.textContent = input.value;
+            colorPreviewElement.style.backgroundColor = input.value;
+            
+            applyStyles();
+        }
+        
         // Função para converter hex para RGB
         function hexToRgb(hex) {
             const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -549,15 +612,23 @@
             document.documentElement.style.setProperty('--cor-letras', document.getElementById('textColor').value);
             document.documentElement.style.setProperty('--cor-titulo', document.getElementById('titleColor').value);
             document.documentElement.style.setProperty('--cor-assinatura', document.getElementById('footerColor').value);
-            document.documentElement.style.setProperty('--fonte-tabela', document.getElementById('fontFamily').value);
+            
+            // Atualizar a fonte da tabela e texto
+            const fontFamily = document.getElementById('fontFamily').value;
+            document.documentElement.style.setProperty('--fonte-tabela', fontFamily);
+            
+            // Aplicar a fonte a todos os elementos da tabela, título e rodapé
+            const tableElements = document.querySelectorAll('th, td, .custom-title, .custom-footer');
+            tableElements.forEach(element => {
+                element.style.fontFamily = fontFamily;
+            });
+            
+            // Atualizar a amostra de fonte
+            document.getElementById('fontSample').style.fontFamily = fontFamily;
             
             // Atualizar o cabeçalho (primeira linha e primeira coluna)
             document.documentElement.style.setProperty('--cor-cabecalho', document.getElementById('headerBgColor').value);
             document.documentElement.style.setProperty('--cor-letras-cabecalho', document.getElementById('headerTextColor').value);
-            
-            // Atualizar a amostra de fonte
-            const fontFamily = document.getElementById('fontFamily').value;
-            document.getElementById('fontSample').style.fontFamily = fontFamily;
             
             // Aplicar tons intercalados
             const stripedRows = document.getElementById('stripedRows').checked;
@@ -591,6 +662,10 @@
             for (let i = 0; i < columns; i++) {
                 const cell = newRow.insertCell();
                 cell.contentEditable = true;
+                cell.spellcheck = false;
+                cell.onpaste = pasteTextOnly;
+                // Aplicar a fonte atual à nova célula
+                cell.style.fontFamily = document.getElementById('fontFamily').value;
                 if (i === 0) {
                     cell.textContent = `Nova Linha`;
                 } else {
@@ -609,6 +684,10 @@
             // Adicionar célula de cabeçalho
             const newHeaderCell = document.createElement('th');
             newHeaderCell.contentEditable = true;
+            newHeaderCell.spellcheck = false;
+            newHeaderCell.onpaste = pasteTextOnly;
+            // Aplicar a fonte atual ao novo cabeçalho
+            newHeaderCell.style.fontFamily = document.getElementById('fontFamily').value;
             newHeaderCell.textContent = `Novo ${newColIndex+1}`;
             headerRow.appendChild(newHeaderCell);
             
@@ -616,6 +695,10 @@
             bodyRows.forEach((row, index) => {
                 const newCell = row.insertCell();
                 newCell.contentEditable = true;
+                newCell.spellcheck = false;
+                newCell.onpaste = pasteTextOnly;
+                // Aplicar a fonte atual à nova célula
+                newCell.style.fontFamily = document.getElementById('fontFamily').value;
                 newCell.textContent = `Novo`;
             });
             
@@ -681,12 +764,6 @@
         
         // Inicializar a página
         window.onload = function() {
-            // Remover a opção de cabeçalho diferente (não é mais necessária)
-            const specialHeaderCheckbox = document.getElementById('specialHeader');
-            if (specialHeaderCheckbox) {
-                specialHeaderCheckbox.parentElement.remove();
-            }
-            
             // Aplicar estilos iniciais
             toggleTitle();
             toggleFooter();
@@ -695,3 +772,5 @@
     </script>
 </body>
 </html>
+
+
