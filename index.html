@@ -1062,164 +1062,137 @@
         }
         
         function captureTableImage() {
-            return new Promise((resolve, reject) => {
-                // Criar um container temporário para capturar a tabela completa
-                const tempContainer = document.createElement('div');
-                tempContainer.className = 'capture-container';
-                tempContainer.style.position = 'absolute';
-                tempContainer.style.left = '-9999px';
-                tempContainer.style.top = '-9999px';
-                tempContainer.style.width = 'auto';
-                
-                // Aplicar estilos CSS ao container
-                Object.assign(tempContainer.style, {
-                    background: document.getElementById('bgPage').value,
-                    padding: '20px',
-                    borderRadius: '10px',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '10px'
-                });
-                
-                // Verificar se o título deve ser mostrado
-                const showTitle = document.getElementById('hasTitle').checked;
-                const showFooter = document.getElementById('hasFooter').checked;
-                
-                // Clonar o título se estiver visível
-                if (showTitle) {
-                    const titleClone = document.createElement('div');
-                    titleClone.className = 'capture-title';
-                    titleClone.textContent = document.getElementById('customTitle').innerText;
-                    
-                    // Aplicar estilos do título
-                    Object.assign(titleClone.style, {
-                        textAlign: 'center',
-                        color: document.getElementById('titleColor').value,
-                        textTransform: 'uppercase',
-                        marginBottom: '10px',
-                        fontFamily: "'Indie Flower', cursive",
-                        fontWeight: '700',
-                        fontSize: '2.2em',
-                        width: '100%'
-                    });
-                    
-                    tempContainer.appendChild(titleClone);
-                }
-                
-                // Clonar a tabela
-                const tableClone = document.getElementById('editableTable').cloneNode(true);
-                
-                // Remover contenteditable dos clones
-                tableClone.querySelectorAll('[contenteditable]').forEach(el => {
-                    el.removeAttribute('contenteditable');
-                });
-                
-                // Aplicar estilos à tabela clonada
-                Object.assign(tableClone.style, {
-                    borderCollapse: 'collapse',
-                    background: document.getElementById('bgCells').value,
-                    border: `1px solid ${document.getElementById('borderColor').value}`,
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-                    margin: '0 auto',
-                    maxWidth: 'none',
-                    width: 'auto'
-                });
-                
-                // Aplicar estilos às células
-                const thElements = tableClone.querySelectorAll('th');
-                const tdElements = tableClone.querySelectorAll('td');
-                
-                thElements.forEach(th => {
-                    Object.assign(th.style, {
-                        border: `1px solid ${document.getElementById('borderColor').value}`,
-                        padding: '12px',
-                        textAlign: 'center',
-                        color: document.getElementById('headerTextColor').value,
-                        fontFamily: document.getElementById('fontFamily').value,
-                        backgroundColor: document.getElementById('headerBgColor').value,
-                        textTransform: 'uppercase',
-                        fontWeight: '700',
-                        fontSize: '16px',
-                        minWidth: '100px'
-                    });
-                });
-                
-                tdElements.forEach(td => {
-    const isFirstColumn = td.cellIndex === 0;
-    Object.assign(td.style, {
+  return new Promise((resolve, reject) => {
+    const tempContainer = document.createElement('div');
+    tempContainer.className = 'capture-container';
+    tempContainer.style.position = 'absolute';
+    tempContainer.style.left = '-9999px';
+    tempContainer.style.top = '-9999px';
+    tempContainer.style.width = 'auto';
+
+    Object.assign(tempContainer.style, {
+      background: document.getElementById('bgPage').value,
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '10px'
+    });
+
+    const fontFamily = document.getElementById('fontFamily').value;
+
+    // Título
+    if (document.getElementById('hasTitle').checked) {
+      const titleClone = document.createElement('div');
+      titleClone.className = 'capture-title';
+      titleClone.textContent = document.getElementById('customTitle').innerText;
+      Object.assign(titleClone.style, {
+        textAlign: 'center',
+        color: document.getElementById('titleColor').value,
+        textTransform: 'uppercase',
+        marginBottom: '10px',
+        fontFamily: fontFamily,
+        fontWeight: '700',
+        fontSize: '2.2em',
+        width: '100%'
+      });
+      tempContainer.appendChild(titleClone);
+    }
+
+    // Tabela
+    const tableClone = document.getElementById('editableTable').cloneNode(true);
+    tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+
+    Object.assign(tableClone.style, {
+      borderCollapse: 'collapse',
+      background: document.getElementById('bgCells').value,
+      border: `1px solid ${document.getElementById('borderColor').value}`,
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+      margin: '0 auto',
+      maxWidth: 'none',
+      width: 'auto'
+    });
+
+    const thElements = tableClone.querySelectorAll('th');
+    const tdElements = tableClone.querySelectorAll('td');
+
+    thElements.forEach(th => {
+      Object.assign(th.style, {
+        border: `1px solid ${document.getElementById('borderColor').value}`,
+        padding: '12px',
+        textAlign: 'center',
+        color: document.getElementById('headerTextColor').value,
+        fontFamily: fontFamily,
+        backgroundColor: document.getElementById('headerBgColor').value,
+        textTransform: 'uppercase',
+        fontWeight: '700',
+        fontSize: '16px',
+        minWidth: '100px'
+      });
+    });
+
+    tdElements.forEach(td => {
+      const isFirstColumn = td.cellIndex === 0;
+      Object.assign(td.style, {
         border: `1px solid ${document.getElementById('borderColor').value}`,
         padding: '12px',
         textAlign: 'center',
         color: isFirstColumn
-            ? document.getElementById('headerTextColor').value
-            : document.getElementById('textColor').value,
-        fontFamily: document.getElementById('fontFamily').value,
+          ? document.getElementById('headerTextColor').value
+          : document.getElementById('textColor').value,
+        fontFamily: fontFamily,
         backgroundColor: isFirstColumn
-            ? document.getElementById('headerBgColor').value
-            : document.getElementById('bgCells').value,
+          ? document.getElementById('headerBgColor').value
+          : document.getElementById('bgCells').value,
         fontSize: '16px',
         fontWeight: isFirstColumn ? '700' : '400',
         textTransform: isFirstColumn ? 'uppercase' : 'none',
         minWidth: '100px'
+      });
     });
-});
 
-                
-                tempContainer.appendChild(tableClone);
-                
-                // Clonar o rodapé se estiver visível
-                if (showFooter) {
-                    const footerClone = document.createElement('div');
-                    footerClone.className = 'capture-footer';
-                    footerClone.textContent = document.getElementById('customFooter').innerText;
-                    
-                    // Aplicar estilos do rodapé
-                    Object.assign(footerClone.style, {
-                        textAlign: 'center',
-                        color: document.getElementById('footerColor').value,
-                        fontWeight: '400',
-                        fontFamily: "'Indie Flower', cursive",
-                        marginTop: '5px',
-                        width: '100%',
-                        fontSize: '1.2em'
-                    });
-                    
-                    tempContainer.appendChild(footerClone);
-                }
-                
-                document.body.appendChild(tempContainer);
-                
-                // Configurar html2canvas para capturar o container completo
-                const options = {
-                    scale: 2,
-                    useCORS: true,
-                    logging: false,
-                    background: document.getElementById('bgPage').value,
-                    width: tempContainer.scrollWidth,
-                    height: tempContainer.scrollHeight
-                };
-                
-                html2canvas(tempContainer, options).then(canvas => {
-                    // Converter canvas para data URL
-                    tableImageDataUrl = canvas.toDataURL('image/png');
-                    
-                    // Atualizar a prévia da imagem
-                    const preview = document.getElementById('tablePreview');
-                    preview.src = tableImageDataUrl;
-                    
-                    // Remover o container temporário
-                    document.body.removeChild(tempContainer);
-                    
-                    resolve();
-                }).catch(error => {
-                    console.error('Erro ao capturar a tabela:', error);
-                    document.body.removeChild(tempContainer);
-                    reject(error);
-                });
-            });
-        }
+    tempContainer.appendChild(tableClone);
+
+    // Rodapé
+    if (document.getElementById('hasFooter').checked) {
+      const footerClone = document.createElement('div');
+      footerClone.className = 'capture-footer';
+      footerClone.textContent = document.getElementById('customFooter').innerText;
+      Object.assign(footerClone.style, {
+        textAlign: 'center',
+        color: document.getElementById('footerColor').value,
+        fontWeight: '400',
+        fontFamily: fontFamily,
+        marginTop: '5px',
+        width: '100%',
+        fontSize: '1.2em'
+      });
+      tempContainer.appendChild(footerClone);
+    }
+
+    document.body.appendChild(tempContainer);
+
+    const options = {
+  scale: window.devicePixelRatio * 2, // ajusta automaticamente à tela do usuário
+  useCORS: true,
+  logging: false,
+  backgroundColor: document.getElementById('bgPage').value
+};
+
+    html2canvas(tempContainer, options).then(canvas => {
+      tableImageDataUrl = canvas.toDataURL('image/png');
+      document.getElementById('tablePreview').src = tableImageDataUrl;
+      document.body.removeChild(tempContainer);
+      resolve();
+    }).catch(error => {
+      console.error('Erro ao capturar a tabela:', error);
+      document.body.removeChild(tempContainer);
+      reject(error);
+    });
+  });
+}
         
         function closeShareModal() {
             document.getElementById('shareModal').style.display = 'none';
@@ -1280,6 +1253,7 @@
     </script>
 </body>
 </html>
+
 
 
 
