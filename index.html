@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Monte sua tabela - @studies_lala</title>
-    <!-- CORREÇÃO: Removi as fontes do sistema da importação do Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Indie+Flower&family=Pacifico&family=Quicksand&family=Dancing+Script&family=Architects+Daughter&family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         :root {
             --cor-fundo-pagina: #F5EBFF;
@@ -193,6 +193,16 @@
             background-color: #218838;
         }
         
+        .btn-share {
+            background-color: #1DA1F2;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+        }
+        
+        .btn-share:hover {
+            background-color: #0d8bd9;
+        }
+        
         .btn-back {
             position: fixed;
             bottom: 20px;
@@ -243,7 +253,7 @@
             color: var(--cor-letras);
             font-family: var(--fonte-tabela);
             min-width: 100px;
-            font-size: 16px; /* Tamanho fixo para células */
+            font-size: 16px;
         }
         
         th {
@@ -251,7 +261,7 @@
             color: var(--cor-letras-cabecalho);
             text-transform: uppercase;
             font-weight: 700;
-            font-size: 16px; /* Tamanho fixo para cabeçalhos */
+            font-size: 16px;
         }
         
         td {
@@ -289,7 +299,7 @@
             margin-bottom: 10px;
             font-family: 'Indie Flower', cursive;
             font-weight: 700;
-            font-size: 2.2em; /* Tamanho fixo para título */
+            font-size: 2.2em;
             width: 100%;
             outline: none;
             padding: 5px;
@@ -303,14 +313,14 @@
         .custom-footer {
             text-align: center;
             color: var(--cor-assinatura);
-            font-weight: 400; /* Reduzindo a espessura da fonte */
+            font-weight: 400;
             font-family: 'Indie Flower', cursive;
-            margin-top: 5px; /* Aproximando mais da tabela */
+            margin-top: 5px;
             width: 100%;
             outline: none;
             padding: 3px;
             border-radius: 5px;
-            font-size: 1.2em; /* Reduzindo o tamanho da assinatura */
+            font-size: 1.2em;
         }
         
         .custom-footer:focus {
@@ -359,6 +369,235 @@
             padding-bottom: 5px;
             margin: 20px 0 15px;
             font-weight: bold;
+        }
+        
+        /* Modal para compartilhar no X */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal h2 {
+            color: var(--cor-divisorias);
+            margin-bottom: 20px;
+            font-family: 'Indie Flower', cursive;
+        }
+        
+        .modal textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+            resize: none;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-btn-primary {
+            background-color: #1DA1F2;
+            color: white;
+        }
+        
+        .modal-btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .preview-container {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .preview-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+        }
+        
+        .preview-image-container {
+            max-width: 100%;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .instructions {
+            background-color: #f0f8ff;
+            border-left: 4px solid #1DA1F2;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 4px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #1DA1F2;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1DA1F2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Estilos para o container temporário de captura */
+        .capture-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .capture-title {
+            text-align: center;
+            color: var(--cor-titulo);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-family: 'Indie Flower', cursive;
+            font-weight: 700;
+            font-size: 2.2em;
+            width: 100%;
+        }
+        
+        .capture-footer {
+            text-align: center;
+            color: var(--cor-assinatura);
+            font-weight: 400;
+            font-family: 'Indie Flower', cursive;
+            margin-top: 5px;
+            width: 100%;
+            font-size: 1.2em;
+        }
+        
+        @media (max-width: 768px) {
+            .controls-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 5px 0;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .custom-title {
+                font-size: 1.6em;
+            }
+            
+            .custom-footer {
+                font-size: 1em;
+            }
+            
+            th, td {
+                padding: 8px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -478,7 +717,6 @@
                         <option value="'Dancing Script', cursive">Dancing Script</option>
                         <option value="'Architects Daughter', cursive">Architects Daughter</option>
                         <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
-                        <!-- CORREÇÃO: Mantive as fontes do sistema apenas como fallback -->
                         <option value="Arial, sans-serif">Arial</option>
                         <option value="Georgia, serif">Georgia</option>
                         <option value="Verdana, sans-serif">Verdana</option>
@@ -552,6 +790,7 @@
             <button class="btn" onclick="removeRow()"><i class="fas fa-minus"></i> Remover Linha</button>
             <button class="btn" onclick="removeColumn()"><i class="fas fa-minus"></i> Remover Coluna</button>
             <button class="btn btn-print" onclick="togglePrintMode()"><i class="fas fa-camera"></i> Hora do Print</button>
+            <button class="btn btn-share" onclick="openShareModal()"><i class="fab fa-twitter"></i> Compartilhar no X</button>
         </div>
         
         <button class="btn btn-back" id="backButton" onclick="togglePrintMode()"><i class="fas fa-arrow-left"></i> Voltar</button>
@@ -563,8 +802,61 @@
             <p>Para ampliar a tabela, aumente o zoom da página nas configurações do navegador.</p>
         </div>
     </div>
+    
+    <!-- Modal para compartilhar no X -->
+    <div id="shareModal" class="modal">
+        <div class="modal-content">
+            <h2>Compartilhar sua Tabela no X</h2>
+            
+            <div class="loading" id="loadingIndicator">
+                <div class="loading-spinner"></div>
+                <p>Gerando imagem da sua tabela...</p>
+            </div>
+            
+            <div id="shareContent" style="display: none;">
+                <div class="preview-container">
+                    <div class="preview-title">Prévia da sua tabela:</div>
+                    <div class="preview-image-container">
+                        <img id="tablePreview" class="preview-image" alt="Prévia da tabela">
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Como compartilhar sua tabela no X:</h3>
+                    <ol>
+                        <li>Clique em "Copiar Texto" para copiar a mensagem</li>
+                        <li>Clique em "Baixar Imagem" para salvar a tabela</li>
+                        <li>Abra o X (Twitter) e crie um novo post</li>
+                        <li>Cole o texto (Ctrl+V) e faça upload da imagem</li>
+                        <li>Ou clique em "Abrir X" para ir diretamente</li>
+                    </ol>
+                </div>
+                
+                <p>Texto para compartilhar:</p>
+                <textarea id="tweetText">Minha tabela personalizada! ✨ Fiz usando o site da @studies_lala: https://priprincesa26.github.io/fa-asuatabela/</textarea>
+                
+                <div class="modal-actions">
+                    <button class="modal-btn modal-btn-primary" onclick="copyText()">
+                        <i class="fas fa-copy"></i> Copiar Texto
+                    </button>
+                    <button class="modal-btn modal-btn-primary" onclick="downloadImage()">
+                        <i class="fas fa-download"></i> Baixar Imagem
+                    </button>
+                    <button class="modal-btn modal-btn-primary" onclick="openTwitter()">
+                        <i class="fab fa-twitter"></i> Abrir X
+                    </button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeShareModal()">
+                        <i class="fas fa-times"></i> Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Variável global para armazenar a imagem da tabela
+        let tableImageDataUrl = '';
+        
         // Função para colar apenas texto puro
         function pasteTextOnly(event) {
             event.preventDefault();
@@ -729,51 +1021,266 @@
             }
         }
         
-        // Funções para mostrar/ocultar título and rodapé
+        // Funções para mostrar/ocultar título e rodapé
         function toggleTitle() {
-            const hasTitle = document.getElementById('hasTitle').checked;
-            const titleElement = document.getElementById('customTitle');
-            
-            if (hasTitle) {
-                titleElement.style.display = 'block';
-            } else {
-                titleElement.style.display = 'none';
-            }
+            const title = document.getElementById('customTitle');
+            title.style.display = document.getElementById('hasTitle').checked ? 'block' : 'none';
         }
         
         function toggleFooter() {
-            const hasFooter = document.getElementById('hasFooter').checked;
-            const footerElement = document.getElementById('customFooter');
-            
-            if (hasFooter) {
-                footerElement.style.display = 'block';
-            } else {
-                footerElement.style.display = 'none';
-            }
+            const footer = document.getElementById('customFooter');
+            footer.style.display = document.getElementById('hasFooter').checked ? 'block' : 'none';
         }
         
-        // Modo de impressão
+        // Função para alternar o modo de impressão
         function togglePrintMode() {
             document.body.classList.toggle('print-mode');
-            // Esconder a caixa de informação se estiver visível
-            document.getElementById('infoBox').classList.remove('show');
         }
         
-        // Mostrar/ocultar informação
+        // Função para mostrar/ocultar informações
         function toggleInfo() {
             document.getElementById('infoBox').classList.toggle('show');
         }
         
+        // Funções para compartilhar no X
+        function openShareModal() {
+            // Mostrar o modal e o indicador de carregamento
+            document.getElementById('shareModal').style.display = 'flex';
+            document.getElementById('loadingIndicator').style.display = 'block';
+            document.getElementById('shareContent').style.display = 'none';
+            
+            // Capturar a tabela como imagem
+            captureTableImage().then(() => {
+                // Esconder o indicador de carregamento e mostrar o conteúdo
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('shareContent').style.display = 'block';
+                
+                // Atualizar o texto do tweet com o título da tabela
+                const title = document.getElementById('customTitle').innerText;
+                document.getElementById('tweetText').value = `Minha tabela "${title}"! ✨ Fiz usando o site da @studies_lala: https://priprincesa26.github.io/fa-asuatabela/`;
+            });
+        }
+        
+        function captureTableImage() {
+            return new Promise((resolve, reject) => {
+                // Criar um container temporário para capturar a tabela completa
+                const tempContainer = document.createElement('div');
+                tempContainer.className = 'capture-container';
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.left = '-9999px';
+                tempContainer.style.top = '-9999px';
+                tempContainer.style.width = 'auto';
+                
+                // Aplicar estilos CSS ao container
+                Object.assign(tempContainer.style, {
+                    background: document.getElementById('bgPage').value,
+                    padding: '20px',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '10px'
+                });
+                
+                // Verificar se o título deve ser mostrado
+                const showTitle = document.getElementById('hasTitle').checked;
+                const showFooter = document.getElementById('hasFooter').checked;
+                
+                // Clonar o título se estiver visível
+                if (showTitle) {
+                    const titleClone = document.createElement('div');
+                    titleClone.className = 'capture-title';
+                    titleClone.textContent = document.getElementById('customTitle').innerText;
+                    
+                    // Aplicar estilos do título
+                    Object.assign(titleClone.style, {
+                        textAlign: 'center',
+                        color: document.getElementById('titleColor').value,
+                        textTransform: 'uppercase',
+                        marginBottom: '10px',
+                        fontFamily: "'Indie Flower', cursive",
+                        fontWeight: '700',
+                        fontSize: '2.2em',
+                        width: '100%'
+                    });
+                    
+                    tempContainer.appendChild(titleClone);
+                }
+                
+                // Clonar a tabela
+                const tableClone = document.getElementById('editableTable').cloneNode(true);
+                
+                // Remover contenteditable dos clones
+                tableClone.querySelectorAll('[contenteditable]').forEach(el => {
+                    el.removeAttribute('contenteditable');
+                });
+                
+                // Aplicar estilos à tabela clonada
+                Object.assign(tableClone.style, {
+                    borderCollapse: 'collapse',
+                    background: document.getElementById('bgCells').value,
+                    border: `1px solid ${document.getElementById('borderColor').value}`,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                    margin: '0 auto',
+                    maxWidth: 'none',
+                    width: 'auto'
+                });
+                
+                // Aplicar estilos às células
+                const thElements = tableClone.querySelectorAll('th');
+                const tdElements = tableClone.querySelectorAll('td');
+                
+                thElements.forEach(th => {
+                    Object.assign(th.style, {
+                        border: `1px solid ${document.getElementById('borderColor').value}`,
+                        padding: '12px',
+                        textAlign: 'center',
+                        color: document.getElementById('headerTextColor').value,
+                        fontFamily: document.getElementById('fontFamily').value,
+                        backgroundColor: document.getElementById('headerBgColor').value,
+                        textTransform: 'uppercase',
+                        fontWeight: '700',
+                        fontSize: '16px',
+                        minWidth: '100px'
+                    });
+                });
+                
+                tdElements.forEach(td => {
+    const isFirstColumn = td.cellIndex === 0;
+    Object.assign(td.style, {
+        border: `1px solid ${document.getElementById('borderColor').value}`,
+        padding: '12px',
+        textAlign: 'center',
+        color: isFirstColumn
+            ? document.getElementById('headerTextColor').value
+            : document.getElementById('textColor').value,
+        fontFamily: document.getElementById('fontFamily').value,
+        backgroundColor: isFirstColumn
+            ? document.getElementById('headerBgColor').value
+            : document.getElementById('bgCells').value,
+        fontSize: '16px',
+        fontWeight: isFirstColumn ? '700' : '400',
+        textTransform: isFirstColumn ? 'uppercase' : 'none',
+        minWidth: '100px'
+    });
+});
+
+                
+                tempContainer.appendChild(tableClone);
+                
+                // Clonar o rodapé se estiver visível
+                if (showFooter) {
+                    const footerClone = document.createElement('div');
+                    footerClone.className = 'capture-footer';
+                    footerClone.textContent = document.getElementById('customFooter').innerText;
+                    
+                    // Aplicar estilos do rodapé
+                    Object.assign(footerClone.style, {
+                        textAlign: 'center',
+                        color: document.getElementById('footerColor').value,
+                        fontWeight: '400',
+                        fontFamily: "'Indie Flower', cursive",
+                        marginTop: '5px',
+                        width: '100%',
+                        fontSize: '1.2em'
+                    });
+                    
+                    tempContainer.appendChild(footerClone);
+                }
+                
+                document.body.appendChild(tempContainer);
+                
+                // Configurar html2canvas para capturar o container completo
+                const options = {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    background: document.getElementById('bgPage').value,
+                    width: tempContainer.scrollWidth,
+                    height: tempContainer.scrollHeight
+                };
+                
+                html2canvas(tempContainer, options).then(canvas => {
+                    // Converter canvas para data URL
+                    tableImageDataUrl = canvas.toDataURL('image/png');
+                    
+                    // Atualizar a prévia da imagem
+                    const preview = document.getElementById('tablePreview');
+                    preview.src = tableImageDataUrl;
+                    
+                    // Remover o container temporário
+                    document.body.removeChild(tempContainer);
+                    
+                    resolve();
+                }).catch(error => {
+                    console.error('Erro ao capturar a tabela:', error);
+                    document.body.removeChild(tempContainer);
+                    reject(error);
+                });
+            });
+        }
+        
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+        }
+        
+        function downloadImage() {
+            if (!tableImageDataUrl) return;
+            
+            // Criar um link para download
+            const link = document.createElement('a');
+            const title = document.getElementById('customTitle').innerText || 'minha-tabela';
+            const filename = title.toLowerCase().replace(/\s+/g, '-') + '.png';
+            
+            link.download = filename;
+            link.href = tableImageDataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function copyText() {
+            const textarea = document.getElementById('tweetText');
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // Para mobile
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('Texto copiado para a área de transferência!');
+                } else {
+                    throw new Error('Falha ao copiar');
+                }
+            } catch (err) {
+                // Fallback: selecionar e tentar copiar manualmente
+                textarea.select();
+                alert('Texto selecionado! Por favor, copie manualmente (Ctrl+C).');
+            }
+        }
+        
+        function openTwitter() {
+            const tweetText = encodeURIComponent(document.getElementById('tweetText').value);
+            const url = `https://twitter.com/intent/tweet?text=${tweetText}`;
+            window.open(url, '_blank');
+        }
+        
         // Inicializar a página
         window.onload = function() {
-            // Aplicar estilos iniciais
-            toggleTitle();
-            toggleFooter();
             applyStyles();
+            
+            // Fechar o modal ao clicar fora dele
+            window.onclick = function(event) {
+                const modal = document.getElementById('shareModal');
+                if (event.target === modal) {
+                    closeShareModal();
+                }
+            }
         };
     </script>
 </body>
 </html>
+
 
 
 
