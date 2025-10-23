@@ -1068,9 +1068,7 @@
     tempContainer.style.position = 'absolute';
     tempContainer.style.left = '-9999px';
     tempContainer.style.top = '-9999px';
-    tempContainer.style.width = 'fit-content';
-    tempContainer.style.maxWidth = '900px'; 
-    tempContainer.style.margin = '0 auto';
+    tempContainer.style.width = 'auto';
 
     Object.assign(tempContainer.style, {
       background: document.getElementById('bgPage').value,
@@ -1108,14 +1106,14 @@
     tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
 
     Object.assign(tableClone.style, {
-  borderCollapse: 'collapse',
-  background: document.getElementById('bgCells').value,
-  border: `1px solid ${document.getElementById('borderColor').value}`,
-  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-  margin: '0 auto',
-  width: '100%',
-  maxWidth: '800px' // controla o limite horizontal
-});
+      borderCollapse: 'collapse',
+      background: document.getElementById('bgCells').value,
+      border: `1px solid ${document.getElementById('borderColor').value}`,
+      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+      margin: '0 auto',
+      maxWidth: 'none',
+      width: 'auto'
+    });
 
     const thElements = tableClone.querySelectorAll('th');
     const tdElements = tableClone.querySelectorAll('td');
@@ -1177,9 +1175,9 @@
     document.body.appendChild(tempContainer);
 
     const options = {
-  const options = {
-  scale: 1.5, // resolução equilibrada
+  scale: window.devicePixelRatio * 2, // ajusta automaticamente à tela do usuário
   useCORS: true,
+  logging: false,
   backgroundColor: document.getElementById('bgPage').value
 };
 
@@ -1255,6 +1253,7 @@
     </script>
 </body>
 </html>
+
 
 
 
