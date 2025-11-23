@@ -20,277 +20,95 @@
             --fonte-tabela: 'Comic Neue', cursive;
         }
         
-        * {
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
+        * { box-sizing: border-box; transition: all 0.3s ease; }
         
         body {
             font-family: Arial, sans-serif;
             background-color: var(--cor-fundo-pagina);
             margin: 0;
-            padding: 20px;
             color: #333;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             min-height: 100vh;
             overflow-x: hidden;
         }
         
         .container {
             width: 100%;
-            max-width: 1200px;
-            background-color: transparent;
+            max-width: none;
             padding: 20px;
-            border-radius: 10px;
         }
         
-        h1 {
-            text-align: center;
-            color: var(--cor-letras);
-            font-family: 'Indie Flower', cursive;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
+        h1 { 
+            text-align: center; 
+            color: var(--cor-letras); 
+            font-family: 'Indie Flower', cursive; 
+            margin-bottom: 30px; 
+            font-size: 2.5rem; 
         }
         
-        .controls-panel {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .control-group {
-            margin-bottom: 15px;
-            position: relative;
-        }
-        
-        .control-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .color-input-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-        
-        .color-picker-icon {
-            font-size: 24px;
-            color: #555;
-        }
-        
-        .color-display {
-            display: flex;
-            align-items: center;
-            flex: 1;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 0 10px;
-            height: 40px;
-            justify-content: space-between;
-        }
-        
-        .color-code {
-            font-family: monospace;
-            font-size: 14px;
-            color: #333;
-        }
-        
-        .color-preview {
-            width: 20px;
-            height: 20px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-        
-        .color-input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .control-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .font-sample {
-            font-size: 12px;
-            margin-top: 5px;
-            color: #777;
-            font-style: italic;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 8px;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-        
-        .checkbox-group label {
-            font-weight: bold;
-            color: #555;
-            cursor: pointer;
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            background-color: var(--cor-cabecalho);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 0 10px 10px 0;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        
-        .btn:hover {
-            background-color: var(--cor-divisorias);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        .btn-print {
-            background-color: #28a745;
-            padding: 15px 25px;
-            font-size: 1.1rem;
-        }
-        
-        .btn-print:hover {
-            background-color: #218838;
-        }
-        
-        .btn-share {
-            background-color: #1DA1F2;
-            padding: 15px 25px;
-            font-size: 1.1rem;
-        }
-        
-        .btn-share:hover {
-            background-color: #0d8bd9;
-        }
-        
-        .btn-back {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            padding: 8px 15px;
-            font-size: 14px;
-            display: none;
-            z-index: 1000;
-        }
-        
-        .btn-info {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 8px 15px;
-            font-size: 14px;
-            display: none;
-            z-index: 1000;
-            background-color: #17a2b8;
-        }
-        
-        .btn-info:hover {
-            background-color: #138496;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            margin-bottom: 5px;
-            width: 100%;
+        .main-content {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 20px;
+        }
+
+        @media (min-width: 1024px) {
+            .main-content {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 30px;
+            }
+            .controls-panel-container {
+                flex: 0 0 420px; 
+                position: sticky;
+                top: 20px;
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+            .table-area {
+                flex: 1;
+                min-width: 0;
+            }
         }
         
-        table {
-            border-collapse: collapse;
-            background: var(--cor-fundo-tabela);
-            border: 1px solid var(--cor-divisorias);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            margin: 0 auto;
-            max-width: 100%;
+        .controls-panel { background-color: rgba(255, 255, 255, 0.9); padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+        .table-area { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            width: 100%;
         }
         
-        th, td {
-            border: 1px solid var(--cor-divisorias);
-            padding: 12px;
-            text-align: center;
-            color: var(--cor-letras);
-            font-family: var(--fonte-tabela);
-            min-width: 100px;
-            font-size: 16px;
+        .controls-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
+        @media (min-width: 400px) {
+            .controls-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
         }
         
-        th {
-            background-color: var(--cor-cabecalho);
-            color: var(--cor-letras-cabecalho);
-            text-transform: uppercase;
-            font-weight: 700;
-            font-size: 16px;
-        }
+        .control-group { margin-bottom: 15px; position: relative; }
+        .control-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .color-input-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .color-picker-icon { font-size: 24px; color: #555; }
+        .color-display { display: flex; align-items: center; flex: 1; background: white; border: 1px solid #ddd; border-radius: 4px; padding: 0 10px; height: 40px; justify-content: space-between; }
+        .color-code { font-family: monospace; font-size: 14px; color: #333; }
+        .color-preview { width: 20px; height: 20px; border: 1px solid #ccc; border-radius: 3px; }
+        .color-input { position: absolute; opacity: 0; pointer-events: none; }
+        .control-group select { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; }
+        .font-sample { font-size: 12px; margin-top: 5px; color: #777; font-style: italic; }
+        .checkbox-group { display: flex; align-items: center; margin-bottom: 10px; }
+        .checkbox-group input[type="checkbox"] { margin-right: 8px; width: 18px; height: 18px; cursor: pointer; }
+        .checkbox-group label { font-weight: bold; color: #555; cursor: pointer; }
+        .btn { padding: 12px 20px; background-color: var(--cor-cabecalho); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 0 5px 10px 5px; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn:hover { background-color: var(--cor-divisorias); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        .btn i { margin-right: 8px; }
+        .btn-print, .btn-share { padding: 15px 25px; font-size: 1.1rem; }
         
-        td {
-            background-color: var(--cor-fundo-tabela);
+        .table-container { 
+            overflow-x: auto; 
+            margin-bottom: 5px; 
+            width: 100%; 
         }
-        
-        /* Cabeçalho especial (primeira linha e primeira coluna) */
-        .special-header th {
-            background-color: var(--cor-cabecalho);
-            color: var(--cor-letras-cabecalho);
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        
-        .special-header td:first-child {
-            background-color: var(--cor-cabecalho);
-            color: var(--cor-letras-cabecalho);
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        
-        /* Linhas intercaladas - excluindo a primeira coluna */
-        .striped-rows tr:nth-child(even) td:not(:first-child) {
-            background-color: #e6d6ff;
-        }
-        
-        tr:hover td:not(:first-child) {
-            background-color: #e0ccff;
-        }
+        table { border-collapse: collapse; background: var(--cor-fundo-tabela); border: 1px solid var(--cor-divisorias); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); margin: 0 auto; max-width: none; }
+        th, td { border: 1px solid var(--cor-divisorias); padding: 12px; text-align: center; color: var(--cor-letras); font-family: var(--fonte-tabela); min-width: 120px; font-size: 16px; }
+        th { background-color: var(--cor-cabecalho); color: var(--cor-letras-cabecalho); text-transform: uppercase; font-weight: 700; }
         
         .custom-title {
             text-align: center;
@@ -305,514 +123,174 @@
             padding: 5px;
             border-radius: 5px;
         }
+
+        .custom-footer { text-align: center; color: var(--cor-assinatura); font-weight: 400; font-family: 'Indie Flower', cursive; margin-top: 5px; width: 100%; outline: none; padding: 3px; border-radius: 5px; font-size: 1.2em; }
         
-        .custom-title:focus {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
+        .print-mode .controls-panel-container, .print-mode h1, .print-mode .actions, .print-mode .chat-icon-container { display: none; }
+        .print-mode .main-content { flex-direction: column; align-items: center; }
+        .print-mode .btn-back, .print-mode .btn-info { display: inline-flex; }
         
-        .custom-footer {
-            text-align: center;
-            color: var(--cor-assinatura);
-            font-weight: 400;
-            font-family: 'Indie Flower', cursive;
-            margin-top: 5px;
-            width: 100%;
-            outline: none;
-            padding: 3px;
-            border-radius: 5px;
-            font-size: 1.2em;
-        }
+        .btn-back, .btn-info { position: fixed; bottom: 20px; display: none; z-index: 1000; }
+        .btn-back { left: 20px; }
+        .btn-info { right: 20px; background-color: #17a2b8; }
+        .btn-info:hover { background-color: #138496; }
+        .info-box { position: fixed; bottom: 70px; right: 20px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-width: 300px; display: none; }
+        .info-box.show { display: block; }
         
-        .custom-footer:focus {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-        
-        .print-mode .controls-panel,
-        .print-mode h1,
-        .print-mode .actions {
-            display: none;
-        }
-        
-        .print-mode .btn-back,
-        .print-mode .btn-info {
-            display: block;
-        }
-        
-        .info-box {
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            max-width: 300px;
-            display: none;
-        }
-        
-        .info-box.show {
-            display: block;
-        }
-        
-        .actions {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .section-title {
-            font-size: 1.2rem;
-            color: var(--cor-divisorias);
-            border-bottom: 2px solid var(--cor-divisorias);
-            padding-bottom: 5px;
-            margin: 20px 0 15px;
-            font-weight: bold;
-        }
-        
-        /* Modal para compartilhar no X */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 800px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .modal h2 {
-            color: var(--cor-divisorias);
-            margin-bottom: 20px;
-            font-family: 'Indie Flower', cursive;
-        }
-        
-        .modal textarea {
-            width: 100%;
-            height: 120px;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-family: Arial, sans-serif;
-            resize: none;
-        }
-        
-        .modal-actions {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        
-        .modal-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-btn-primary {
-            background-color: #1DA1F2;
-            color: white;
-        }
-        
-        .modal-btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-        
-        .preview-container {
-            margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .preview-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-            text-align: center;
-        }
-        
-        .preview-image-container {
-            max-width: 100%;
-            overflow: auto;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .preview-image {
-            max-width: 100%;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .instructions {
-            background-color: #f0f8ff;
-            border-left: 4px solid #1DA1F2;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: left;
-            border-radius: 4px;
-        }
-        
-        .instructions h3 {
-            margin-top: 0;
-            color: #1DA1F2;
-        }
-        
-        .instructions ol {
-            padding-left: 20px;
-        }
-        
-        .instructions li {
-            margin-bottom: 10px;
-        }
-        
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .loading-spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1DA1F2;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 0 auto 15px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Estilos para o container temporário de captura */
-        .capture-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .capture-title {
-            text-align: center;
-            color: var(--cor-titulo);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            font-family: 'Indie Flower', cursive;
-            font-weight: 700;
-            font-size: 2.2em;
+        .actions { 
+            display: flex; 
+            justify-content: center; 
+            margin-top: 20px; 
+            flex-wrap: wrap; 
             width: 100%;
         }
+
+        .section-title { font-size: 1.2rem; color: var(--cor-divisorias); border-bottom: 2px solid var(--cor-divisorias); padding-bottom: 5px; margin: 20px 0 15px; font-weight: bold; }
         
-        .capture-footer {
-            text-align: center;
-            color: var(--cor-assinatura);
-            font-weight: 400;
-            font-family: 'Indie Flower', cursive;
-            margin-top: 5px;
-            width: 100%;
-            font-size: 1.2em;
-        }
+        .presets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+        .preset-btn { padding: 10px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9; cursor: pointer; text-align: center; font-weight: bold; font-size: 0.9em; display: inline-flex; align-items: center; justify-content: center; }
+        .preset-btn i { margin-right: 8px; width: 1.1em; text-align: center; }
+        .preset-btn:hover { border-color: var(--cor-cabecalho); background-color: #f0e6ff; }
         
-        @media (max-width: 768px) {
-            .controls-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                margin: 5px 0;
-            }
-            
-            .modal-content {
-                padding: 20px;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-            
-            .modal-btn {
-                width: 100%;
-            }
-        }
+        .chat-icon-container { position: fixed; bottom: 20px; right: 20px; z-index: 1010; cursor: pointer; }
+        .chat-icon { width: 60px; height: 60px; background-color: var(--cor-cabecalho); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .notification-badge { position: absolute; top: -5px; right: -5px; width: 22px; height: 22px; background-color: red; color: white; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; border: 2px solid white; }
+        .notification-badge.visible { display: flex; }
+
+        .vibrating { animation: vibrate 1s ease-out infinite; }
+        @keyframes vibrate { 0%, 30%, 100% { transform: translate(0, 0) rotate(0); } 5% { transform: translate(-2px, -2px) rotate(-2deg); } 10% { transform: translate(2px, 2px) rotate(2deg); } 15% { transform: translate(-2px, 2px) rotate(-2deg); } 20% { transform: translate(2px, -2px) rotate(2deg); } 25% { transform: translate(0, 0) rotate(0); } }
+
+        .chat-box { position: fixed; bottom: 100px; right: 20px; width: 350px; max-width: 90vw; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); overflow: hidden; display: flex; flex-direction: column; z-index: 1009; opacity: 0; transform: scale(0.9) translateY(10px); transform-origin: bottom right; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease; }
+        .chat-box.show { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
+        .chat-header { background-color: var(--cor-cabecalho); color: white; padding: 15px; font-weight: bold; }
+        .chat-messages { padding: 15px; height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .message { padding: 10px 15px; border-radius: 18px; max-width: 80%; line-height: 1.4; word-wrap: break-word; }
+        .message.bot { background-color: #f1f0f0; border-bottom-left-radius: 4px; align-self: flex-start; }
+        .message.user { background-color: #e0ccff; color: #333; border-bottom-right-radius: 4px; align-self: flex-end; }
+        .message a { color: var(--cor-divisorias); font-weight: bold; }
+        .chat-replies { padding: 15px; border-top: 1px solid #eee; display: flex; flex-direction: column; gap: 8px; }
+        .chat-reply-btn { background: #f9f9f9; border: 1px solid #ddd; padding: 10px; border-radius: 8px; cursor: pointer; text-align: left; width: 100%; }
+        .chat-reply-btn:hover { background-color: #f0e6ff; border-color: var(--cor-cabecalho); }
         
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .custom-title {
-                font-size: 1.6em;
-            }
-            
-            .custom-footer {
-                font-size: 1em;
-            }
-            
-            th, td {
-                padding: 8px;
-                font-size: 14px;
-            }
-        }
+        .special-header th, .special-header td:first-child { background-color: var(--cor-cabecalho); color: var(--cor-letras-cabecalho); text-transform: uppercase; font-weight: 700; }
+        tr:hover td:not(:first-child) { background-color: #e0ccff; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 100%; max-width: 800px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; max-height: 90vh; overflow-y: auto; }
+        .modal h2 { color: var(--cor-divisorias); margin-bottom: 20px; font-family: 'Indie Flower', cursive; }
+        .modal textarea { width: 100%; height: 120px; padding: 12px; border: 1px solid #ddd; border-radius: 6px; margin-bottom: 20px; font-family: Arial, sans-serif; resize: none; }
+        .modal-actions { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .modal-btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; display: inline-flex; align-items: center; justify-content: center; }
+        .modal-btn-primary { background-color: #1DA1F2; color: white; }
+        .modal-btn-secondary { background-color: #6c757d; color: white; }
+        .preview-container { margin: 20px 0; border: 1px solid #ddd; border-radius: 8px; padding: 15px; background-color: #f9f9f9; display: flex; flex-direction: column; align-items: center; }
+        .preview-title { font-weight: bold; margin-bottom: 10px; color: #333; text-align: center; }
+        .preview-image-container { max-width: 100%; overflow: auto; display: flex; justify-content: center; }
+        .preview-image { max-width: 100%; border: 1px solid #ddd; border-radius: 4px; }
+        .instructions { background-color: #f0f8ff; border-left: 4px solid #1DA1F2; padding: 15px; margin: 20px 0; text-align: left; border-radius: 4px; }
+        .instructions h3 { margin-top: 0; color: #1DA1F2; }
+        .instructions ol { padding-left: 20px; }
+        .instructions li { margin-bottom: 10px; }
+        .loading { display: none; text-align: center; padding: 20px; }
+        .loading-spinner { border: 4px solid #f3f3f3; border-top: 4px solid #1DA1F2; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Monte sua Tabela - @studies_lala</h1>
+        <h1>Sua tabela com @studies_lala - Projeto desenvolvido por Priscila "LaLa"</h1>
         
-        <div class="controls-panel">
-            <div class="section-title">Configurações de Cores</div>
-            <div class="controls-grid">
-                <div class="control-group">
-                    <label for="bgPage">Cor de Fundo da Página</label>
-                    <div class="color-input-container" onclick="document.getElementById('bgPage').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="bgPageCode">#F5EBFF</span>
-                            <div class="color-preview" id="bgPagePreview" style="background-color: #F5EBFF"></div>
-                        </div>
-                        <input type="color" id="bgPage" value="#F5EBFF" onchange="updateColorDisplay(this)" class="color-input">
+        <div class="main-content">
+            <div class="controls-panel-container">
+                <div class="controls-panel">
+                    <div class="section-title">Temas Prontos</div>
+                    <div class="presets-grid">
+                        <!-- TEMAS COM ÍCONES SUBSTITUÍDOS -->
+                        <button class="preset-btn" onclick="applyPreset('doceLavanda')"><i class="fas fa-heart"></i> LaLa</button>
+                        <button class="preset-btn" onclick="applyPreset('florestaEncantada')"><i class="fas fa-atom"></i> Marie Curie</button>
+                        <button class="preset-btn" onclick="applyPreset('cadernoClassico')"><i class="fas fa-ankh"></i> Cleópatra</button>
+                        <button class="preset-btn" onclick="applyPreset('brisaDoMar')"><i class="fas fa-book-reader"></i> Carolina Maria de Jesus</button>
+                        <button class="preset-btn" onclick="applyPreset('cinzaMinimalista')"><i class="fas fa-laptop-code"></i> Ada Lovelace</button>
+                        <button class="preset-btn" onclick="applyPreset('ceuEstrelado')"><i class="fas fa-graduation-cap"></i> Anna Julia Cooper</button>
+                        <button class="preset-btn" onclick="applyPreset('jardimSecreto')"><i class="fas fa-shoe-prints"></i> Ana Botafogo</button>
+                        <button class="preset-btn" onclick="applyPreset('oceanoProfundo')"><i class="fas fa-pen-nib"></i> Clarice Lispector</button>
+                        <button class="preset-btn" onclick="applyPreset('terracotaSol')"><i class="fas fa-brain"></i> Nise da Silveira</button>
+                        <button class="preset-btn" onclick="applyPreset('grafiteAmarelo')"><i class="fas fa-bus"></i> Rosa Parks</button>
+                        <button class="preset-btn" onclick="applyPreset('rosaCereja')"><i class="fas fa-book"></i> Malala Yousafzai</button>
+                        <button class="preset-btn" onclick="applyPreset('docePastel')"><i class="fas fa-venus-mars"></i> Christine Jorgensen</button>
+                        <button class="preset-btn" onclick="applyPreset('mentaSuave')"><i class="fas fa-feather-alt"></i> Jane Austen</button>
                     </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="bgCells">Cor de Fundo das Células</label>
-                    <div class="color-input-container" onclick="document.getElementById('bgCells').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="bgCellsCode">#F8F2FF</span>
-                            <div class="color-preview" id="bgCellsPreview" style="background-color: #F8F2FF"></div>
-                        </div>
-                        <input type="color" id="bgCells" value="#F8F2FF" onchange="updateColorDisplay(this)" class="color-input">
+
+                    <div class="section-title">Configurações de Cores</div>
+                    <div class="controls-grid">
+                        <div class="control-group"><label for="bgPage">Fundo da Página</label><div class="color-input-container" onclick="document.getElementById('bgPage').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="bgPageCode">#F5EBFF</span><div class="color-preview" id="bgPagePreview" style="background-color: #F5EBFF"></div></div><input type="color" id="bgPage" value="#F5EBFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="bgCells">Fundo das Células</label><div class="color-input-container" onclick="document.getElementById('bgCells').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="bgCellsCode">#F8F2FF</span><div class="color-preview" id="bgCellsPreview" style="background-color: #F8F2FF"></div></div><input type="color" id="bgCells" value="#F8F2FF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="borderColor">Cor das Divisórias</label><div class="color-input-container" onclick="document.getElementById('borderColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="borderColorCode">#4B0082</span><div class="color-preview" id="borderColorPreview" style="background-color: #4B0082"></div></div><input type="color" id="borderColor" value="#4B0082" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="textColor">Cor das Letras</label><div class="color-input-container" onclick="document.getElementById('textColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="textColorCode">#4A2568</span><div class="color-preview" id="textColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="textColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="titleColor">Cor do Título</label><div class="color-input-container" onclick="document.getElementById('titleColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="titleColorCode">#4A2568</span><div class="color-preview" id="titleColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="titleColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="footerColor">Cor da Assinatura</label><div class="color-input-container" onclick="document.getElementById('footerColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="footerColorCode">#9370DB</span><div class="color-preview" id="footerColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="footerColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="headerBgColor">Cor do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerBgColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerBgColorCode">#9370DB</span><div class="color-preview" id="headerBgColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="headerBgColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+                        <div class="control-group"><label for="headerTextColor">Texto do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerTextColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerTextColorCode">#FFFFFF</span><div class="color-preview" id="headerTextColorPreview" style="background-color: #FFFFFF"></div></div><input type="color" id="headerTextColor" value="#FFFFFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
                     </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="borderColor">Cor das Divisórias</label>
-                    <div class="color-input-container" onclick="document.getElementById('borderColor').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="borderColorCode">#4B0082</span>
-                            <div class="color-preview" id="borderColorPreview" style="background-color: #4B0082"></div>
+                    
+                    <div class="section-title">Configurações de Estilo</div>
+                    <div class="controls-grid">
+                        <div class="control-group"><label for="fontFamily">Fonte do Texto</label><select id="fontFamily" onchange="applyStyles()"><option value="'Comic Neue', cursive" selected>Comic Neue</option> <option value="'Indie Flower', cursive">Indie Flower</option> <option value="'Pacifico', cursive">Pacifico</option> <option value="'Quicksand', sans-serif">Quicksand</option> <option value="'Dancing Script', cursive">Dancing Script</option> <option value="'Architects Daughter', cursive">Architects Daughter</option> <option value="'Shadows Into Light', cursive">Shadows Into Light</option> <option value="Arial, sans-serif">Arial</option> <option value="Georgia, serif">Georgia</option> <option value="Verdana, sans-serif">Verdana</option> <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option> <option value="'Courier New', monospace">Courier New</option></select><div class="font-sample" id="fontSample">@studies_lala - Amostra de texto</div></div>
+                        <div class="checkbox-group"><input type="checkbox" id="hasTitle" checked onchange="toggleTitle()"><label for="hasTitle">Mostrar Título</label></div>
+                        <div class="checkbox-group"><input type="checkbox" id="hasFooter" checked onchange="toggleFooter()"><label for="hasFooter">Mostrar Assinatura</label></div>
+                        <div class="checkbox-group"><input type="checkbox" id="stripedRows" checked onchange="toggleStripedOptions()"><label for="stripedRows">Tons Intercalados</label></div>
+                        
+                        <div id="stripedColorGroup" style="display: none;">
+                             <div class="control-group">
+                                <label for="stripedColor">Fundo dos Tons Intercalados</label>
+                                <div class="color-input-container" onclick="document.getElementById('stripedColor').click()">
+                                    <i class="fas fa-palette color-picker-icon"></i>
+                                    <div class="color-display">
+                                        <span class="color-code" id="stripedColorCode">#e6d6ff</span>
+                                        <div class="color-preview" id="stripedColorPreview" style="background-color: #e6d6ff"></div>
+                                    </div>
+                                    <input type="color" id="stripedColor" value="#e6d6ff" onchange="updateColorDisplay(this)" class="color-input">
+                                </div>
+                            </div>
                         </div>
-                        <input type="color" id="borderColor" value="#4B0082" onchange="updateColorDisplay(this)" class="color-input">
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="textColor">Cor das Letras</label>
-                    <div class="color-input-container" onclick="document.getElementById('textColor').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="textColorCode">#4A2568</span>
-                            <div class="color-preview" id="textColorPreview" style="background-color: #4A2568"></div>
-                        </div>
-                        <input type="color" id="textColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input">
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="titleColor">Cor do Título</label>
-                    <div class="color-input-container" onclick="document.getElementById('titleColor').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="titleColorCode">#4A2568</span>
-                            <div class="color-preview" id="titleColorPreview" style="background-color: #4A2568"></div>
-                        </div>
-                        <input type="color" id="titleColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input">
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="footerColor">Cor da Assinatura</label>
-                    <div class="color-input-container" onclick="document.getElementById('footerColor').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="footerColorCode">#9370DB</span>
-                            <div class="color-preview" id="footerColorPreview" style="background-color: #9370DB"></div>
-                        </div>
-                        <input type="color" id="footerColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input">
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="headerBgColor">Cor do Cabeçalho</label>
-                    <div class="color-input-container" onclick="document.getElementById('headerBgColor').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="headerBgColorCode">#9370DB</span>
-                            <div class="color-preview" id="headerBgColorPreview" style="background-color: #9370DB"></div>
-                        </div>
-                        <input type="color" id="headerBgColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input">
-                    </div>
-                </div>
-                
-                <div class="control-group">
-                    <label for="headerTextColor">Cor do Texto do Cabeçalho</label>
-                    <div class="color-input-container" onclick="document.getElementById('headerTextColor').click()">
-                        <i class="fas fa-palette color-picker-icon"></i>
-                        <div class="color-display">
-                            <span class="color-code" id="headerTextColorCode">#FFFFFF</span>
-                            <div class="color-preview" id="headerTextColorPreview" style="background-color: #FFFFFF"></div>
-                        </div>
-                        <input type="color" id="headerTextColor" value="#FFFFFF" onchange="updateColorDisplay(this)" class="color-input">
                     </div>
                 </div>
             </div>
             
-            <div class="section-title">Configurações de Estilo</div>
-            <div class="controls-grid">
-                <div class="control-group">
-                    <label for="fontFamily">Fonte do Texto</label>
-                    <select id="fontFamily" onchange="applyStyles()">
-                        <option value="'Comic Neue', cursive" selected>Comic Neue</option>
-                        <option value="'Indie Flower', cursive">Indie Flower</option>
-                        <option value="'Pacifico', cursive">Pacifico</option>
-                        <option value="'Quicksand', sans-serif">Quicksand</option>
-                        <option value="'Dancing Script', cursive">Dancing Script</option>
-                        <option value="'Architects Daughter', cursive">Architects Daughter</option>
-                        <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Georgia, serif">Georgia</option>
-                        <option value="Verdana, sans-serif">Verdana</option>
-                        <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
-                        <option value="'Courier New', monospace">Courier New</option>
-                    </select>
-                    <div class="font-sample" id="fontSample">@studies_lala - Amostra de texto</div>
-                </div>
+            <div class="table-area">
+                <div id="customTitle" class="custom-title" contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Sua Tabela</div>
                 
-                <div class="checkbox-group">
-                    <input type="checkbox" id="hasTitle" checked onchange="toggleTitle()">
-                    <label for="hasTitle">Mostrar Título</label>
+                <div class="table-container">
+                    <table id="editableTable" class="special-header striped-rows">
+                        <thead><tr><th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 1</th><th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 2</th><th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 3</th><th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 4</th><th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 5</th></tr></thead>
+                        <tbody><tr><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 1</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 2</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 3</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 4</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 5</td></tr><tr><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 1</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 2</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 3</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 4</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 5</td></tr><tr><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 1</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 2</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 3</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 4</td><td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 5</td></tr></tbody>
+                    </table>
                 </div>
+                <div id="customFooter" class="custom-footer" contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">@studies_lala</div>
                 
-                <div class="checkbox-group">
-                    <input type="checkbox" id="hasFooter" checked onchange="toggleFooter()">
-                    <label for="hasFooter">Mostrar Assinatura</label>
-                </div>
-                
-                <div class="checkbox-group">
-                    <input type="checkbox" id="stripedRows" checked onchange="applyStyles()">
-                    <label for="stripedRows">Tons Intercalados</label>
+                <div class="actions">
+                    <button class="btn" onclick="addRow()"><i class="fas fa-plus"></i> Adicionar Linha</button><button class="btn" onclick="addColumn()"><i class="fas fa-plus"></i> Adicionar Coluna</button><button class="btn" onclick="removeRow()"><i class="fas fa-minus"></i> Remover Linha</button><button class="btn" onclick="removeColumn()"><i class="fas fa-minus"></i> Remover Coluna</button><button class="btn btn-print" onclick="togglePrintMode()"><i class="fas fa-camera"></i> Hora do Print</button><button class="btn btn-share" onclick="openShareModal()"><i class="fab fa-twitter"></i> Compartilhar no X</button>
                 </div>
             </div>
-        </div>
-        
-        <div class="table-container">
-            <div id="customTitle" class="custom-title" contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Sua Tabela</div>
-            
-            <table id="editableTable" class="special-header striped-rows">
-                <thead>
-                    <tr>
-                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 1</th>
-                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 2</th>
-                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 3</th>
-                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 4</th>
-                        <th contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Cabeçalho 5</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 1</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 2</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 3</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 4</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 1 Col 5</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 1</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 2</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 3</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 4</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 2 Col 5</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 1</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 2</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 3</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 4</td>
-                        <td contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">Linha 3 Col 5</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div id="customFooter" class="custom-footer" contenteditable="true" spellcheck="false" onpaste="pasteTextOnly(event)">@studies_lala</div>
-        </div>
-        
-        <div class="actions">
-            <button class="btn" onclick="addRow()"><i class="fas fa-plus"></i> Adicionar Linha</button>
-            <button class="btn" onclick="addColumn()"><i class="fas fa-plus"></i> Adicionar Coluna</button>
-            <button class="btn" onclick="removeRow()"><i class="fas fa-minus"></i> Remover Linha</button>
-            <button class="btn" onclick="removeColumn()"><i class="fas fa-minus"></i> Remover Coluna</button>
-            <button class="btn btn-print" onclick="togglePrintMode()"><i class="fas fa-camera"></i> Hora do Print</button>
-            <button class="btn btn-share" onclick="openShareModal()"><i class="fab fa-twitter"></i> Compartilhar no X</button>
-        </div>
-        
-        <button class="btn btn-back" id="backButton" onclick="togglePrintMode()"><i class="fas fa-arrow-left"></i> Voltar</button>
-        <button class="btn btn-info" id="infoButton" onclick="toggleInfo()"><i class="fas fa-info-circle"></i></button>
-        
-        <div class="info-box" id="infoBox">
-            <p><strong>Para tirar um print pelo computador:</strong></p>
-            <p>Pressione: <kbd>Windows + Shift + S</kbd> and select the desired area.</p>
-            <p>Para ampliar a tabela, aumente o zoom da página nas configurações do navegador.</p>
         </div>
     </div>
     
-    <!-- Modal para compartilhar no X -->
+    <button class="btn btn-back" id="backButton" onclick="togglePrintMode()"><i class="fas fa-arrow-left"></i> Voltar</button>
+    <button class="btn btn-info" id="infoButton" onclick="toggleInfo()"><i class="fas fa-info-circle"></i></button>
+    <div class="info-box" id="infoBox">
+        <p><strong>Para tirar um print pelo computador:</strong></p>
+        <p>Pressione: <kbd>Windows + Shift + S</kbd> e selecione a área desejada.</p>
+        <p>Para ampliar a tabela, aumente o zoom da página nas configurações do navegador.</p>
+    </div>
+
     <div id="shareModal" class="modal">
         <div class="modal-content">
             <h2>Compartilhar sua Tabela no X</h2>
-            
             <div class="loading" id="loadingIndicator">
                 <div class="loading-spinner"></div>
                 <p>Gerando imagem da sua tabela...</p>
             </div>
-            
             <div id="shareContent" style="display: none;">
                 <div class="preview-container">
                     <div class="preview-title">Prévia da sua tabela:</div>
@@ -820,7 +298,6 @@
                         <img id="tablePreview" class="preview-image" alt="Prévia da tabela">
                     </div>
                 </div>
-                
                 <div class="instructions">
                     <h3>Como compartilhar sua tabela no X:</h3>
                     <ol>
@@ -828,431 +305,212 @@
                         <li>Clique em "Baixar Imagem" para salvar a tabela</li>
                         <li>Abra o X (Twitter) e crie um novo post</li>
                         <li>Cole o texto (Ctrl+V) e faça upload da imagem</li>
-                        <li>Ou clique em "Abrir X" para ir diretamente</li>
                     </ol>
                 </div>
-                
                 <p>Texto para compartilhar:</p>
-                <textarea id="tweetText">Minha tabela personalizada! ✨ Fiz usando o site da @studies_lala: https://priprincesa26.github.io/fa-asuatabela/</textarea>
-                
+                <textarea id="tweetText">Minha tabela personalizada! ✨ Fiz usando o site da @studies_lala!</textarea>
                 <div class="modal-actions">
-                    <button class="modal-btn modal-btn-primary" onclick="copyText()">
-                        <i class="fas fa-copy"></i> Copiar Texto
-                    </button>
-                    <button class="modal-btn modal-btn-primary" onclick="downloadImage()">
-                        <i class="fas fa-download"></i> Baixar Imagem
-                    </button>
-                    <button class="modal-btn modal-btn-primary" onclick="openTwitter()">
-                        <i class="fab fa-twitter"></i> Abrir X
-                    </button>
-                    <button class="modal-btn modal-btn-secondary" onclick="closeShareModal()">
-                        <i class="fas fa-times"></i> Fechar
-                    </button>
+                    <button class="modal-btn modal-btn-primary" onclick="copyText()"><i class="fas fa-copy"></i> Copiar Texto</button>
+                    <button class="modal-btn modal-btn-primary" onclick="downloadImage()"><i class="fas fa-download"></i> Baixar Imagem</button>
+                    <button class="modal-btn modal-btn-secondary" onclick="closeShareModal()"><i class="fas fa-times"></i> Fechar</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="chat-icon-container" id="chatIconContainer" onclick="toggleChat()">
+        <div class="chat-icon"><i class="fas fa-comments"></i></div>
+        <div class="notification-badge" id="chatNotification">1</div>
+    </div>
+    <div class="chat-box" id="chatBox">
+        <div class="chat-header">A LaLa do twitter</div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-replies" id="chatReplies"></div>
+    </div>
+
     <script>
-        // Variável global para armazenar a imagem da tabela
-        let tableImageDataUrl = '';
-        
-        // Função para colar apenas texto puro
-        function pasteTextOnly(event) {
-            event.preventDefault();
-            const text = (event.clipboardData || window.clipboardData).getData('text/plain');
-            document.execCommand('insertText', false, text);
+        const presets = {
+            doceLavanda: { bgPage: '#F5EBFF', bgCells: '#F8F2FF', borderColor: '#4B0082', textColor: '#4A2568', titleColor: '#4A2568', footerColor: '#9370DB', headerBgColor: '#9370DB', headerTextColor: '#FFFFFF', stripedColor: '#e6d6ff', fontFamily: "'Comic Neue', cursive" },
+            florestaEncantada: { bgPage: '#f0fff0', bgCells: '#fafffa', borderColor: '#006400', textColor: '#2f4f4f', titleColor: '#2e8b57', footerColor: '#2e8b57', headerBgColor: '#2e8b57', headerTextColor: '#ffffff', stripedColor: '#E8F5E9', fontFamily: "'Architects Daughter', cursive" },
+            cadernoClassico: { bgPage: '#fdf5e6', bgCells: '#fffaf0', borderColor: '#8b4513', textColor: '#696969', titleColor: '#8b4513', footerColor: '#a0522d', headerBgColor: '#d2b48c', headerTextColor: '#4d3a24', stripedColor: '#F5F5DC', fontFamily: "'Georgia', serif" },
+            brisaDoMar: { bgPage: '#e0f7fa', bgCells: '#ffffff', borderColor: '#0077c2', textColor: '#004d7a', titleColor: '#0288d1', footerColor: '#0288d1', headerBgColor: '#4fc3f7', headerTextColor: '#ffffff', stripedColor: '#E1F5FE', fontFamily: "'Quicksand', sans-serif" },
+            cinzaMinimalista: { bgPage: '#f5f5f5', bgCells: '#ffffff', borderColor: '#616161', textColor: '#212121', titleColor: '#424242', footerColor: '#757575', headerBgColor: '#bdbdbd', headerTextColor: '#000000', stripedColor: '#EEEEEE', fontFamily: "'Arial', sans-serif" },
+            ceuEstrelado: { bgPage: '#0d1b2a', bgCells: '#1b263b', borderColor: '#778da9', textColor: '#e0e1dd', titleColor: '#ffffff', footerColor: '#778da9', headerBgColor: '#415a77', headerTextColor: '#ffffff', stripedColor: '#2a3f5d', fontFamily: "'Quicksand', sans-serif" },
+            jardimSecreto: { bgPage: '#f0fff4', bgCells: '#e6f5e9', borderColor: '#2e8b57', textColor: '#2f4f4f', titleColor: '#3cb371', footerColor: '#3cb371', headerBgColor: '#66cdaa', headerTextColor: '#003311', stripedColor: '#D1FAE5', fontFamily: "'Dancing Script', cursive" },
+            oceanoProfundo: { bgPage: '#0a192f', bgCells: '#112240', borderColor: '#64ffda', textColor: '#ccd6f6', titleColor: '#ffffff', footerColor: '#64ffda', headerBgColor: '#173a5e', headerTextColor: '#64ffda', stripedColor: '#0f2d52', fontFamily: "'Courier New', monospace" },
+            terracotaSol: { bgPage: '#fffaf0', bgCells: '#fdf5e6', borderColor: '#c89f9c', textColor: '#7d5a5a', titleColor: '#a0522d', footerColor: '#a0522d', headerBgColor: '#e57373', headerTextColor: '#ffffff', stripedColor: '#FAEBD7', fontFamily: "'Georgia', serif" },
+            grafiteAmarelo: { bgPage: '#212121', bgCells: '#323232', borderColor: '#616161', textColor: '#f5f5f5', titleColor: '#ffd600', footerColor: '#f5f5f5', headerBgColor: '#ffd600', headerTextColor: '#000000', stripedColor: '#424242', fontFamily: "'Trebuchet MS', sans-serif" },
+            rosaCereja: { bgPage: '#FFF0F5', bgCells: '#FFFFFF', borderColor: '#C2185B', textColor: '#880E4F', titleColor: '#C2185B', footerColor: '#F48FB1', headerBgColor: '#F48FB1', headerTextColor: '#FFFFFF', stripedColor: '#FCE4EC', fontFamily: "'Indie Flower', cursive" },
+            docePastel: { bgPage: '#e0f7fa', bgCells: '#ffffff', borderColor: '#f48fb1', textColor: '#ad1457', titleColor: '#d81b60', footerColor: '#f48fb1', headerBgColor: '#f48fb1', headerTextColor: '#ffffff', stripedColor: '#fce4ec', fontFamily: "'Comic Neue', cursive" },
+            mentaSuave: { bgPage: '#f0fdf4', bgCells: '#ffffff', borderColor: '#4ade80', textColor: '#14532d', titleColor: '#16a34a', footerColor: '#16a34a', headerBgColor: '#86efac', headerTextColor: '#064e3b', stripedColor: '#dcfce7', fontFamily: "'Architects Daughter', cursive" },
+        };
+
+        function applyPreset(presetName) {
+            const preset = presets[presetName];
+            if (!preset) return;
+            Object.keys(preset).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = preset[key];
+                    if (element.type === 'color') {
+                        updateColorDisplay(element);
+                    }
+                }
+            });
+            applyStyles();
         }
+        function pasteTextOnly(event) { event.preventDefault(); const text = (event.clipboardData || window.clipboardData).getData('text/plain'); document.execCommand('insertText', false, text); }
+        function updateColorDisplay(input) { document.getElementById(input.id + 'Code').textContent = input.value; document.getElementById(input.id + 'Preview').style.backgroundColor = input.value; applyStyles(); }
         
-        // Função para atualizar a exibição da cor
-        function updateColorDisplay(input) {
-            const colorCodeElement = document.getElementById(input.id + 'Code');
-            const colorPreviewElement = document.getElementById(input.id + 'Preview');
-            
-            colorCodeElement.textContent = input.value;
-            colorPreviewElement.style.backgroundColor = input.value;
-            
+        function toggleStripedOptions() {
+            const isChecked = document.getElementById('stripedRows').checked;
+            document.getElementById('stripedColorGroup').style.display = isChecked ? 'block' : 'none';
             applyStyles();
         }
         
-        // Função para converter hex para RGB
-        function hexToRgb(hex) {
-            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-        
-        // Função para escurecer uma cor
-        function darkenColor(hex, percent) {
-            const rgb = hexToRgb(hex);
-            if (!rgb) return hex;
-            
-            const r = Math.max(0, Math.min(255, Math.floor(rgb.r * (100 - percent) / 100)));
-            const g = Math.max(0, Math.min(255, Math.floor(rgb.g * (100 - percent) / 100)));
-            const b = Math.max(0, Math.min(255, Math.floor(rgb.b * (100 - percent) / 100)));
-            
-            return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
-        }
-        
-        // Função para aplicar os estilos personalizados
         function applyStyles() {
-            // Atualizar variáveis CSS
             document.documentElement.style.setProperty('--cor-fundo-pagina', document.getElementById('bgPage').value);
             document.documentElement.style.setProperty('--cor-fundo-tabela', document.getElementById('bgCells').value);
             document.documentElement.style.setProperty('--cor-divisorias', document.getElementById('borderColor').value);
             document.documentElement.style.setProperty('--cor-letras', document.getElementById('textColor').value);
             document.documentElement.style.setProperty('--cor-titulo', document.getElementById('titleColor').value);
             document.documentElement.style.setProperty('--cor-assinatura', document.getElementById('footerColor').value);
-            
-            // Atualizar a fonte da tabela e texto
             const fontFamily = document.getElementById('fontFamily').value;
             document.documentElement.style.setProperty('--fonte-tabela', fontFamily);
-            
-            // Aplicar a fonte a todos os elementos da tabela, título e rodapé
-            const tableElements = document.querySelectorAll('th, td, .custom-title, .custom-footer');
-            tableElements.forEach(element => {
-                element.style.fontFamily = fontFamily;
-            });
-            
-            // Atualizar a amostra de fonte
+            document.querySelectorAll('th, td, .custom-title, .custom-footer').forEach(element => { element.style.fontFamily = fontFamily; });
             document.getElementById('fontSample').style.fontFamily = fontFamily;
-            
-            // Atualizar o cabeçalho (primeira linha e primeira coluna)
             document.documentElement.style.setProperty('--cor-cabecalho', document.getElementById('headerBgColor').value);
             document.documentElement.style.setProperty('--cor-letras-cabecalho', document.getElementById('headerTextColor').value);
             
-            // Aplicar tons intercalados
-            const stripedRows = document.getElementById('stripedRows').checked;
             const table = document.getElementById('editableTable');
-            
+            const stripedRows = document.getElementById('stripedRows').checked;
+            const oldStyle = document.getElementById('custom-striped-style');
+            if (oldStyle) oldStyle.remove();
+
             if (stripedRows) {
                 table.classList.add('striped-rows');
-                // Aplicar cor mais escura para linhas pares (excluindo a primeira coluna)
-                const baseColor = document.getElementById('bgCells').value;
-                const darkerColor = darkenColor(baseColor, 15);
-                
-                const style = document.getElementById('custom-striped-style') || document.createElement('style');
+                const stripedColor = document.getElementById('stripedColor').value;
+                const style = document.createElement('style');
                 style.id = 'custom-striped-style';
-                style.textContent = `
-                    .striped-rows tr:nth-child(even) td:not(:first-child) {
-                        background-color: ${darkerColor} !important;
-                    }
-                `;
+                style.textContent = `.striped-rows tr:nth-child(even) td:not(:first-child) { background-color: ${stripedColor} !important; }`;
                 document.head.appendChild(style);
             } else {
                 table.classList.remove('striped-rows');
             }
         }
+        function addRow() { const tbody = document.querySelector('#editableTable tbody'); const columns = document.querySelector('#editableTable thead tr').cells.length; const newRow = tbody.insertRow(); for (let i = 0; i < columns; i++) { const cell = newRow.insertCell(); cell.contentEditable = true; cell.spellcheck = false; cell.onpaste = pasteTextOnly; cell.style.fontFamily = document.getElementById('fontFamily').value; cell.textContent = (i === 0) ? `Nova Linha` : `Conteúdo`; } applyStyles(); }
+        function addColumn() { const headerRow = document.querySelector('#editableTable thead tr'); const bodyRows = document.querySelectorAll('#editableTable tbody tr'); const newColIndex = headerRow.cells.length; const newHeaderCell = document.createElement('th'); newHeaderCell.contentEditable = true; newHeaderCell.spellcheck = false; newHeaderCell.onpaste = pasteTextOnly; newHeaderCell.style.fontFamily = document.getElementById('fontFamily').value; newHeaderCell.textContent = `Cabeçalho ${newColIndex+1}`; headerRow.appendChild(newHeaderCell); bodyRows.forEach(row => { const newCell = row.insertCell(); newCell.contentEditable = true; newCell.spellcheck = false; newCell.onpaste = pasteTextOnly; newCell.style.fontFamily = document.getElementById('fontFamily').value; newCell.textContent = `Conteúdo`; }); applyStyles(); }
+        function removeRow() { const tbody = document.querySelector('#editableTable tbody'); if (tbody.rows.length > 1) { tbody.deleteRow(-1); } }
+        function removeColumn() { const headerRow = document.querySelector('#editableTable thead tr'); if (headerRow.cells.length > 1) { const bodyRows = document.querySelectorAll('#editableTable tbody tr'); headerRow.deleteCell(-1); bodyRows.forEach(row => row.deleteCell(-1)); } }
+        function toggleTitle() { document.getElementById('customTitle').style.display = document.getElementById('hasTitle').checked ? 'block' : 'none'; }
+        function toggleFooter() { document.getElementById('customFooter').style.display = document.getElementById('hasFooter').checked ? 'block' : 'none'; }
         
-        // Funções para adicionar/remover linhas e colunas
-        function addRow() {
-            const tbody = document.querySelector('#editableTable tbody');
-            const columns = document.querySelector('#editableTable thead tr').cells.length;
-            const newRow = tbody.insertRow();
-            
-            for (let i = 0; i < columns; i++) {
-                const cell = newRow.insertCell();
-                cell.contentEditable = true;
-                cell.spellcheck = false;
-                cell.onpaste = pasteTextOnly;
-                // Aplicar a fonte atual à nova célula
-                cell.style.fontFamily = document.getElementById('fontFamily').value;
-                if (i === 0) {
-                    cell.textContent = `Nova Linha`;
-                } else {
-                    cell.textContent = `Col ${i+1}`;
-                }
-            }
-            
-            applyStyles();
-        }
-        
-        function addColumn() {
-            const headerRow = document.querySelector('#editableTable thead tr');
-            const bodyRows = document.querySelectorAll('#editableTable tbody tr');
-            const newColIndex = headerRow.cells.length;
-            
-            // Adicionar célula de cabeçalho
-            const newHeaderCell = document.createElement('th');
-            newHeaderCell.contentEditable = true;
-            newHeaderCell.spellcheck = false;
-            newHeaderCell.onpaste = pasteTextOnly;
-            // Aplicar a fonte atual ao novo cabeçalho
-            newHeaderCell.style.fontFamily = document.getElementById('fontFamily').value;
-            newHeaderCell.textContent = `Novo ${newColIndex+1}`;
-            headerRow.appendChild(newHeaderCell);
-            
-            // Adicionar células no corpo
-            bodyRows.forEach((row, index) => {
-                const newCell = row.insertCell();
-                newCell.contentEditable = true;
-                newCell.spellcheck = false;
-                newCell.onpaste = pasteTextOnly;
-                // Aplicar a fonte atual à nova célula
-                newCell.style.fontFamily = document.getElementById('fontFamily').value;
-                newCell.textContent = `Novo`;
-            });
-            
-            applyStyles();
-        }
-        
-        function removeRow() {
-            const tbody = document.querySelector('#editableTable tbody');
-            if (tbody.rows.length > 1) {
-                tbody.deleteRow(-1);
-            }
-        }
-        
-        function removeColumn() {
-            const headerRow = document.querySelector('#editableTable thead tr');
-            const bodyRows = document.querySelectorAll('#editableTable tbody tr');
-            
-            if (headerRow.cells.length > 1) {
-                // Remover do cabeçalho
-                headerRow.deleteCell(-1);
-                
-                // Remover do corpo
-                bodyRows.forEach(row => {
-                    row.deleteCell(-1);
-                });
-            }
-        }
-        
-        // Funções para mostrar/ocultar título e rodapé
-        function toggleTitle() {
-            const title = document.getElementById('customTitle');
-            title.style.display = document.getElementById('hasTitle').checked ? 'block' : 'none';
-        }
-        
-        function toggleFooter() {
-            const footer = document.getElementById('customFooter');
-            footer.style.display = document.getElementById('hasFooter').checked ? 'block' : 'none';
-        }
-        
-        // Função para alternar o modo de impressão
-        function togglePrintMode() {
-            document.body.classList.toggle('print-mode');
-        }
-        
-        // Função para mostrar/ocultar informações
-        function toggleInfo() {
-            document.getElementById('infoBox').classList.toggle('show');
-        }
-        
-        // Funções para compartilhar no X
+        let tableImageDataUrl = '';
+        function togglePrintMode() { document.body.classList.toggle('print-mode'); }
+        function toggleInfo() { document.getElementById('infoBox').classList.toggle('show'); }
+
         function openShareModal() {
-            // Mostrar o modal e o indicador de carregamento
-            document.getElementById('shareModal').style.display = 'flex';
+            const modal = document.getElementById('shareModal');
+            modal.style.display = 'flex';
             document.getElementById('loadingIndicator').style.display = 'block';
             document.getElementById('shareContent').style.display = 'none';
-            
-            // Capturar a tabela como imagem
+
             captureTableImage().then(() => {
-                // Esconder o indicador de carregamento e mostrar o conteúdo
                 document.getElementById('loadingIndicator').style.display = 'none';
                 document.getElementById('shareContent').style.display = 'block';
-                
-                // Atualizar o texto do tweet com o título da tabela
                 const title = document.getElementById('customTitle').innerText;
-                document.getElementById('tweetText').value = `Minha tabela "${title}"! ✨ Fiz usando o site da @studies_lala: https://priprincesa26.github.io/fa-asuatabela/`;
+                document.getElementById('tweetText').value = `Minha tabela "${title}"! ✨ Fiz usando o site da @studies_lala!`;
+            }).catch(err => {
+                console.error("Erro ao gerar imagem:", err);
+                alert("Ocorreu um erro ao gerar a imagem da tabela.");
+                closeShareModal();
             });
         }
-        
+
         function captureTableImage() {
-  return new Promise((resolve, reject) => {
-    const tempContainer = document.createElement('div');
-    tempContainer.className = 'capture-container';
-    tempContainer.style.position = 'absolute';
-    tempContainer.style.left = '-9999px';
-    tempContainer.style.top = '-9999px';
-    tempContainer.style.width = 'auto';
+            return new Promise((resolve, reject) => {
+                const titleEl = document.getElementById('customTitle');
+                const tableContainerEl = document.querySelector('.table-container');
+                const footerEl = document.getElementById('customFooter');
 
-    Object.assign(tempContainer.style, {
-      background: document.getElementById('bgPage').value,
-      padding: '20px',
-      borderRadius: '10px',
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '10px'
-    });
-
-    const fontFamily = document.getElementById('fontFamily').value;
-
-    // Título
-    if (document.getElementById('hasTitle').checked) {
-      const titleClone = document.createElement('div');
-      titleClone.className = 'capture-title';
-      titleClone.textContent = document.getElementById('customTitle').innerText;
-      Object.assign(titleClone.style, {
-        textAlign: 'center',
-        color: document.getElementById('titleColor').value,
-        textTransform: 'uppercase',
-        marginBottom: '10px',
-        fontFamily: fontFamily,
-        fontWeight: '700',
-        fontSize: '2.2em',
-        width: '100%'
-      });
-      tempContainer.appendChild(titleClone);
-    }
-
-    // Tabela
-    const tableClone = document.getElementById('editableTable').cloneNode(true);
-    tableClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-
-    Object.assign(tableClone.style, {
-      borderCollapse: 'collapse',
-      background: document.getElementById('bgCells').value,
-      border: `1px solid ${document.getElementById('borderColor').value}`,
-      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-      margin: '0 auto',
-      maxWidth: 'none',
-      width: 'auto'
-    });
-
-    const thElements = tableClone.querySelectorAll('th');
-    const tdElements = tableClone.querySelectorAll('td');
-
-    thElements.forEach(th => {
-      Object.assign(th.style, {
-        border: `1px solid ${document.getElementById('borderColor').value}`,
-        padding: '12px',
-        textAlign: 'center',
-        color: document.getElementById('headerTextColor').value,
-        fontFamily: fontFamily,
-        backgroundColor: document.getElementById('headerBgColor').value,
-        textTransform: 'uppercase',
-        fontWeight: '700',
-        fontSize: '16px',
-        minWidth: '100px'
-      });
-    });
-
-    tdElements.forEach(td => {
-      const isFirstColumn = td.cellIndex === 0;
-      Object.assign(td.style, {
-        border: `1px solid ${document.getElementById('borderColor').value}`,
-        padding: '12px',
-        textAlign: 'center',
-        color: isFirstColumn
-          ? document.getElementById('headerTextColor').value
-          : document.getElementById('textColor').value,
-        fontFamily: fontFamily,
-        backgroundColor: isFirstColumn
-          ? document.getElementById('headerBgColor').value
-          : document.getElementById('bgCells').value,
-        fontSize: '16px',
-        fontWeight: isFirstColumn ? '700' : '400',
-        textTransform: isFirstColumn ? 'uppercase' : 'none',
-        minWidth: '100px'
-      });
-    });
-
-    tempContainer.appendChild(tableClone);
-
-    // Rodapé
-    if (document.getElementById('hasFooter').checked) {
-      const footerClone = document.createElement('div');
-      footerClone.className = 'capture-footer';
-      footerClone.textContent = document.getElementById('customFooter').innerText;
-      Object.assign(footerClone.style, {
-        textAlign: 'center',
-        color: document.getElementById('footerColor').value,
-        fontWeight: '400',
-        fontFamily: fontFamily,
-        marginTop: '5px',
-        width: '100%',
-        fontSize: '1.2em'
-      });
-      tempContainer.appendChild(footerClone);
-    }
-
-    document.body.appendChild(tempContainer);
-
-    const options = {
-  scale: window.devicePixelRatio * 2, // ajusta automaticamente à tela do usuário
-  useCORS: true,
-  logging: false,
-  backgroundColor: document.getElementById('bgPage').value
-};
-
-    html2canvas(tempContainer, options).then(canvas => {
-      tableImageDataUrl = canvas.toDataURL('image/png');
-      document.getElementById('tablePreview').src = tableImageDataUrl;
-      document.body.removeChild(tempContainer);
-      resolve();
-    }).catch(error => {
-      console.error('Erro ao capturar a tabela:', error);
-      document.body.removeChild(tempContainer);
-      reject(error);
-    });
-  });
-}
-        
-        function closeShareModal() {
-            document.getElementById('shareModal').style.display = 'none';
-        }
-        
-        function downloadImage() {
-            if (!tableImageDataUrl) return;
-            
-            // Criar um link para download
-            const link = document.createElement('a');
-            const title = document.getElementById('customTitle').innerText || 'minha-tabela';
-            const filename = title.toLowerCase().replace(/\s+/g, '-') + '.png';
-            
-            link.download = filename;
-            link.href = tableImageDataUrl;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
-        function copyText() {
-            const textarea = document.getElementById('tweetText');
-            textarea.select();
-            textarea.setSelectionRange(0, 99999); // Para mobile
-            
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    alert('Texto copiado para a área de transferência!');
-                } else {
-                    throw new Error('Falha ao copiar');
+                const captureContainer = document.createElement('div');
+                document.body.appendChild(captureContainer);
+                Object.assign(captureContainer.style, {
+                    position: 'absolute',
+                    left: '-9999px',
+                    padding: '20px',
+                    background: getComputedStyle(document.documentElement).getPropertyValue('--cor-fundo-pagina'),
+                    display: 'inline-block'
+                });
+                
+                if (document.getElementById('hasTitle').checked) {
+                    captureContainer.appendChild(titleEl.cloneNode(true));
                 }
-            } catch (err) {
-                // Fallback: selecionar e tentar copiar manualmente
-                textarea.select();
-                alert('Texto selecionado! Por favor, copie manualmente (Ctrl+C).');
-            }
+
+                const tableClone = tableContainerEl.querySelector('table').cloneNode(true);
+                captureContainer.appendChild(tableClone);
+                
+                if (document.getElementById('hasFooter').checked) {
+                    captureContainer.appendChild(footerEl.cloneNode(true));
+                }
+
+                html2canvas(captureContainer, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
+                    tableImageDataUrl = canvas.toDataURL('image/png');
+                    document.getElementById('tablePreview').src = tableImageDataUrl;
+                    document.body.removeChild(captureContainer);
+                    resolve();
+                }).catch(reject);
+            });
         }
+
+        function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
+        function downloadImage() { if (!tableImageDataUrl) return; const link = document.createElement('a'); const title = document.getElementById('customTitle').innerText || 'minha-tabela'; link.download = `${title.toLowerCase().replace(/\s+/g, '-')}.png`; link.href = tableImageDataUrl; document.body.appendChild(link); link.click(); document.body.removeChild(link); }
+        function copyText() { const textarea = document.getElementById('tweetText'); textarea.select(); try { document.execCommand('copy'); alert('Texto copiado!'); } catch (err) { alert('Erro ao copiar texto.'); } }
         
-        function openTwitter() {
-            const tweetText = encodeURIComponent(document.getElementById('tweetText').value);
-            const url = `https://twitter.com/intent/tweet?text=${tweetText}`;
-            window.open(url, '_blank');
+        const chatBox = document.getElementById('chatBox');
+        const chatIconContainer = document.getElementById('chatIconContainer');
+        const chatNotification = document.getElementById('chatNotification');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatReplies = document.getElementById('chatReplies');
+        let notificationTimer;
+
+        function showNotification() { chatNotification.classList.add('visible'); chatIconContainer.classList.add('vibrating'); }
+        function toggleChat() { chatBox.classList.toggle('show'); if (chatBox.classList.contains('show')) { chatNotification.classList.remove('visible'); chatIconContainer.classList.remove('vibrating'); } }
+        function addMessage(text, sender = 'bot') { const messageDiv = document.createElement('div'); messageDiv.className = `message ${sender}`; messageDiv.innerHTML = text; chatMessages.appendChild(messageDiv); chatMessages.scrollTop = chatMessages.scrollHeight; }
+        function showInitialReplies() { chatReplies.innerHTML = `<button class="chat-reply-btn" onclick="handleReply(this)">Uau, que demais! Vou aproveitar agora</button><button class="chat-reply-btn" onclick="handleReply(this)">Agradeço, mas vou deixar passar (por enquanto...)</button><button class="chat-reply-btn" onclick="handleReply(this)">Amei! Tem outros cupons?</button>`; }
+        
+        function handleReply(button) { 
+            const replyText = button.innerText; 
+            addMessage(replyText, 'user'); 
+            chatReplies.innerHTML = ''; 
+            setTimeout(() => { 
+                if (replyText.includes("outros cupons")) { 
+                    addMessage('Sim! 🧡<br>Eu tenho outros cupons disponíveis, e você pode encontrar todos eles no meu Linktree:<br>👉 <a href="https://linktr.ee/lalatears" target="_blank">https://linktr.ee/lalatears</a><br><br>Fique à vontade para conferir e aproveitar os descontos!'); 
+                } else if (replyText.includes("aproveitar agora")) { 
+                    addMessage("Perfeito! Não se esqueça de usar o cupom <strong>LALAVEST</strong> no site <a href='https://discursivas.com' target='_blank'>discursivas.com</a>. Boas compras!"); 
+                } else { 
+                    addMessage("Sem problemas! Fica para a próxima. 😉"); 
+                } 
+            }, 800); 
         }
-        
-        // Inicializar a página
+        function startChatFlow() { 
+            chatMessages.innerHTML = ''; 
+            chatReplies.innerHTML = ''; 
+            addMessage('Eu tenho um cupom exclusivo que garante um desconto especial na compra de cursos de matérias isoladas para pré-vestibular no site Discursivas!<br><br>É só acessar <a href="https://discursivas.com" target="_blank">discursivas.com</a> e aplicar o cupom <strong>LALAVEST</strong> na finalização da compra. Aproveite para turbinar seus estudos com materiais completos e focados no que realmente cai na prova!'); 
+            showInitialReplies(); 
+        }
+
         window.onload = function() {
+            toggleStripedOptions(); 
             applyStyles();
-            
-            // Fechar o modal ao clicar fora dele
-            window.onclick = function(event) {
-                const modal = document.getElementById('shareModal');
-                if (event.target === modal) {
-                    closeShareModal();
-                }
-            }
+            startChatFlow();
+            notificationTimer = setTimeout(showNotification, 60000);
+            window.onclick = function(event) { if (event.target == document.getElementById('shareModal')) { closeShareModal(); } }
         };
     </script>
 </body>
 </html>
+
 
 
 
