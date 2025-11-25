@@ -40,6 +40,7 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden; 
+            overflow-y: auto; 
         }
 
         /* HEADER SUPERIOR */
@@ -54,7 +55,6 @@
             z-index: 30;
             position: sticky;
             top: 0;
-            flex-shrink: 0;
         }
 
         .site-header h1 {
@@ -68,13 +68,14 @@
         /* LAYOUT PRINCIPAL */
         .main-layout {
             display: flex;
-            flex-direction: row; /* Padrão Desktop: Lado a Lado */
+            flex-direction: row; /* Barra Lateral e Conteúdo */
             align-items: flex-start;
+            position: relative;
             width: 100%;
-            flex: 1;
+            height: auto; /* Altura automática para permitir scroll da página */
         }
 
-        /* MENU LATERAL (SIDEBAR) */
+        /* MENU LATERAL (SIDEBAR) - Sticky */
         .sidebar-container {
             width: 340px;
             background-color: white;
@@ -83,10 +84,10 @@
             box-shadow: 2px 0 10px rgba(0,0,0,0.05);
             flex-shrink: 0;
             
-            /* Desktop: Sticky */
+            /* Fica fixo enquanto a página rola */
             position: sticky;
-            top: 60px; 
-            height: calc(100vh - 60px);
+            top: 60px; /* Abaixo do header */
+            height: calc(100vh - 60px); /* Ocupa a altura da janela */
             overflow-y: auto;
             z-index: 20;
             transition: margin-left 0.4s ease;
@@ -99,29 +100,30 @@
         /* ÁREA DE CONTEÚDO */
         .content-area {
             flex: 1;
-            min-width: 0; /* CRUCIAL para responsividade */
-            width: 100%; /* Garante uso total do espaço */
+            min-width: 0; /* Impede que a tabela estoure o flexbox */
             padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
             background-color: var(--cor-fundo-pagina);
+            /* Sem altura fixa, cresce com a tabela */
         }
 
-        /* ROLAGEM DA TABELA (Leste-Oeste) */
+        /* ROLAGEM DA TABELA */
         .table-wrapper {
             width: 100%;
-            max-width: 100%; /* Garante que não estoure a tela no mobile */
+            /* Apenas rolagem horizontal (Leste-Oeste) */
             overflow-x: auto; 
             margin-bottom: 5px;
-            padding-bottom: 10px;
+            padding-bottom: 10px; /* Espaço para a barra de rolagem */
             position: relative;
-            -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
         }
 
+        /* Estilo da barra de rolagem da tabela */
         .table-wrapper::-webkit-scrollbar { height: 12px; }
         .table-wrapper::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
         .table-wrapper::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; border: 3px solid #f1f1f1; }
+        .table-wrapper::-webkit-scrollbar-thumb:hover { background: #555; }
 
         table { 
             border-collapse: collapse; 
@@ -129,7 +131,7 @@
             border: 1px solid var(--cor-divisorias); 
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
             margin: 0 auto; 
-            max-width: none; 
+            max-width: none; /* Permite que a tabela seja maior que a tela */
         }
         
         th, td { 
@@ -160,7 +162,7 @@
             padding-bottom: 60px;
         }
 
-        /* BOTÕES */
+        /* Botões */
         .btn-toggle-sidebar {
             background: transparent;
             border: 2px solid var(--cor-titulo);
@@ -203,7 +205,7 @@
         .btn-action:hover { filter: brightness(0.9); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
         .btn-action.wide { width: 100%; max-width: 300px; margin-top: 10px; }
 
-        /* Estilos do Menu */
+        /* Estilos do Menu Lateral */
         .section-title { font-size: 1.1rem; color: var(--cor-divisorias); border-bottom: 2px solid var(--cor-divisorias); padding-bottom: 5px; margin: 15px 0 10px; font-weight: bold; }
         .presets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .preset-btn { padding: 8px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; cursor: pointer; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; }
@@ -221,51 +223,24 @@
         .checkbox-group input { margin-right: 8px; }
         .checkbox-group input:disabled + label { color: #aaa; text-decoration: line-through; }
 
-        /* RESPONSIVIDADE MOBILE (CORRIGIDA) */
-        @media (max-width: 1024px) {
-            .main-layout { 
-                flex-direction: column; /* Empilha verticalmente */
-            }
-            
+        /* Responsividade Mobile */
+        @media (max-width: 900px) {
+            .main-layout { flex-direction: column; }
             .sidebar-container { 
                 width: 100%; 
-                height: auto;
-                max-height: none;
-                position: relative; /* Volta ao fluxo normal do documento */
+                height: auto; 
+                max-height: 50vh; 
+                position: relative; 
                 top: 0;
                 border-right: none;
                 border-bottom: 1px solid #ddd;
-                z-index: 25;
             }
-            
-            .sidebar-container.collapsed { 
-                display: none; 
-                margin-left: 0; /* Reseta margem lateral */
-            }
-            
-            .content-area { 
-                padding: 15px; /* Menos padding em telas pequenas */
-                width: 100%;
-            }
-            
-            .btn-show-sidebar { 
-                position: fixed; 
-                top: 80px; /* Ajuste para não colar no header */
-                left: 10px; 
-            }
-
-            /* Ajuste dos botões no mobile */
-            .actions-panel {
-                padding-bottom: 80px; /* Espaço extra para botões fixos */
-            }
-            
-            .btn-action {
-                flex: 1 1 40%; /* Botões ocupam mais espaço */
-                font-size: 0.85rem;
-            }
+            .sidebar-container.collapsed { display: none; margin-left: 0; }
+            .content-area { padding: 20px; }
+            .btn-show-sidebar { position: fixed; top: 75px; left: 10px; }
         }
 
-        /* MODO IMPRESSÃO */
+        /* MODO IMPRESSÃO (Focus Mode) */
         .print-mode .site-header, 
         .print-mode .sidebar-container, 
         .print-mode .btn-show-sidebar, 
@@ -291,7 +266,7 @@
         .btn-back { left: 20px; background-color: var(--site-btn-bg); }
         .btn-info { right: 20px; background-color: #17a2b8; }
 
-        /* MERGE OVERLAY */
+        /* MERGE */
         .merge-overlay { position: absolute; display: none; justify-content: center; align-items: center; z-index: 100; width: 120px; height: 120px; pointer-events: none; }
         .merge-grid { display: grid; grid-template-columns: 36px 36px 36px; grid-template-rows: 36px 36px 36px; gap: 2px; pointer-events: auto; }
         .merge-btn { background-color: var(--cor-divisorias); color: white; border: 2px solid white; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 3px 8px rgba(0,0,0,0.4); transition: transform 0.2s; width: 34px; height: 34px; }
@@ -301,7 +276,7 @@
         .merge-btn.right { grid-column: 3; grid-row: 2; }
         .merge-btn.down { grid-column: 2; grid-row: 3; }
 
-        /* MODAL E INSTRUÇÕES (Do arquivo 3.html) */
+        /* MODAL E INSTRUÇÕES */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); z-index: 2000; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
         .modal-content { background-color: white; padding: 30px; border-radius: 10px; width: 100%; max-width: 800px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); text-align: center; max-height: 90vh; overflow-y: auto; }
         .modal h2 { color: var(--cor-divisorias); margin-bottom: 20px; font-family: 'Indie Flower', cursive; }
@@ -385,7 +360,6 @@
             <div class="control-group"><label>Cor das Letras</label><div class="color-input-container" onclick="document.getElementById('textColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="textColorCode">#4A2568</span><div class="color-preview" id="textColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="textColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
             <div class="control-group"><label>Cor do Título</label><div class="color-input-container" onclick="document.getElementById('titleColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="titleColorCode">#4A2568</span><div class="color-preview" id="titleColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="titleColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
             <div class="control-group"><label>Cor da Assinatura</label><div class="color-input-container" onclick="document.getElementById('footerColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="footerColorCode">#9370DB</span><div class="color-preview" id="footerColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="footerColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-            
             <div class="control-group"><label>Cor do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerBgColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerBgColorCode">#9370DB</span><div class="color-preview" id="headerBgColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="headerBgColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
             <div class="control-group"><label>Texto do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerTextColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerTextColorCode">#FFFFFF</span><div class="color-preview" id="headerTextColorPreview" style="background-color: #FFFFFF"></div></div><input type="color" id="headerTextColor" value="#FFFFFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
 
@@ -446,7 +420,7 @@
         <p><strong>Dica Extra:</strong> Segure o clique em uma célula para mesclar!</p>
     </div>
 
-    <!-- Modal para compartilhar no X (Atualizado com o conteúdo solicitado) -->
+    <!-- Modal para compartilhar no X -->
     <div id="shareModal" class="modal">
         <div class="modal-content">
             <h2>Compartilhar sua Tabela no X</h2>
@@ -739,7 +713,7 @@
                 document.getElementById('loadingIndicator').style.display = 'none';
                 document.getElementById('shareContent').style.display = 'block';
                 const title = document.getElementById('customTitle').innerText;
-                document.getElementById('tweetText').value = `Minha tabela "${title}"! ✨ Fiz usando o site da @studies_lala!`;
+                document.getElementById('tweetText').value = `Minha tabela "${title}"! ✨ Fiz usando o site da @studies_lala: https://priprincesa26.github.io/fa-asuatabela/`;
             }).catch(err => { alert("Erro ao gerar imagem."); closeShareModal(); });
         }
 
@@ -749,22 +723,34 @@
                 const tableWrapperEl = document.getElementById('tableWrapper'); 
                 const footerEl = document.getElementById('customFooter');
                 const overlay = document.getElementById('mergeOverlay');
+                
                 const originalOverlayDisplay = overlay.style.display;
                 overlay.style.display = 'none';
 
                 const captureContainer = document.createElement('div');
                 document.body.appendChild(captureContainer);
-                Object.assign(captureContainer.style, { position: 'absolute', left: '-9999px', padding: '20px', background: getComputedStyle(document.documentElement).getPropertyValue('--cor-fundo-pagina'), display: 'inline-block', width: 'auto' });
+                
+                Object.assign(captureContainer.style, { 
+                    position: 'absolute', 
+                    left: '-9999px', 
+                    padding: '20px', 
+                    background: getComputedStyle(document.documentElement).getPropertyValue('--cor-fundo-pagina'), 
+                    display: 'inline-block',
+                    width: 'auto' 
+                });
                 
                 if (document.getElementById('hasTitle').checked) captureContainer.appendChild(titleEl.cloneNode(true));
+                
                 const tableEl = tableWrapperEl.querySelector('table');
                 const tableClone = tableEl.cloneNode(true);
                 captureContainer.appendChild(tableClone);
+                
                 if (document.getElementById('hasFooter').checked) captureContainer.appendChild(footerEl.cloneNode(true));
 
                 html2canvas(captureContainer, { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
                     tableImageDataUrl = canvas.toDataURL('image/png');
-                    document.getElementById('tablePreview').src = tableImageDataUrl;
+                    const previewImg = document.getElementById('tablePreview');
+                    if(previewImg) previewImg.src = tableImageDataUrl;
                     document.body.removeChild(captureContainer);
                     overlay.style.display = originalOverlayDisplay; 
                     resolve();
@@ -776,7 +762,7 @@
         function downloadImage() { if (!tableImageDataUrl) return; const link = document.createElement('a'); const title = document.getElementById('customTitle').innerText || 'minha-tabela'; link.download = `${title.toLowerCase().replace(/\s+/g, '-')}.png`; link.href = tableImageDataUrl; document.body.appendChild(link); link.click(); document.body.removeChild(link); }
         function copyText() { const textarea = document.getElementById('tweetText'); textarea.select(); try { document.execCommand('copy'); alert('Texto copiado!'); } catch (err) { alert('Erro ao copiar texto.'); } }
         
-        // Função Nova para Abrir o X
+        // Função para Abrir o X
         function openTwitter() {
             const tweetText = encodeURIComponent(document.getElementById('tweetText').value);
             const url = `https://twitter.com/intent/tweet?text=${tweetText}`;
@@ -827,6 +813,7 @@
     </script>
 </body>
 </html>
+
 
 
 
