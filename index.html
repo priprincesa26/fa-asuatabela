@@ -27,6 +27,10 @@
         --tabela-border-radius: 0px;
         --tabela-border-style: solid;
         --tabela-border-width: 1px;
+
+        /* Variáveis de Contraste do Menu */
+        --menu-text-label: #333;
+        --btn-palette-bg: #4A2568;
     }
     
     * { box-sizing: border-box; transition: background 0.3s, color 0.3s, border-color 0.3s; }
@@ -85,8 +89,8 @@
     /* MENU LATERAL (SIDEBAR) */
     .sidebar-container {
         width: 340px;
-        background-color: white;
-        border-right: 1px solid #ddd;
+        background-color: var(--cor-cabecalho);
+        border-right: 1px solid rgba(0,0,0,0.1);
         padding: 20px;
         box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         flex-shrink: 0;
@@ -192,11 +196,11 @@
 
     /* Botões */
     .btn-toggle-sidebar {
-        background: transparent;
-        border: 2px solid var(--cor-titulo);
-        color: var(--cor-titulo);
-        border-radius: 20px;
-        padding: 8px 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid var(--cor-letras-cabecalho);
+        color: var(--cor-letras-cabecalho);
+        border-radius: 12px;
+        padding: 10px 15px;
         font-size: 0.9rem;
         font-weight: bold;
         cursor: pointer;
@@ -206,8 +210,9 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
-    .btn-toggle-sidebar:hover { background-color: #f0e6ff; }
+    .btn-toggle-sidebar:hover { background-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
 
     .btn-show-sidebar {
         position: fixed;
@@ -244,45 +249,79 @@
 
     .btn-pdf { background-color: #FF69B4 !important; color: white !important; }
     .btn-pdf:hover { background-color: #FF1493 !important; }
+
+    .btn-recado { background-color: #FF8C00 !important; color: white !important; }
+    .btn-recado:hover { background-color: #E67E00 !important; }
     
     .btn-reset { background-color: #6c757d !important; }
     .btn-reset:hover { background-color: #5a6268 !important; }
 
     /* Estilos do Menu Lateral */
-    .section-title { font-size: 1.1rem; color: var(--cor-divisorias); border-bottom: 2px solid var(--cor-divisorias); padding-bottom: 5px; margin: 15px 0 10px; font-weight: bold; }
-    .presets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .preset-btn { padding: 8px; border: 1px solid #ddd; border-radius: 4px; background-color: #f9f9f9; cursor: pointer; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px; }
-    .preset-btn:hover { border-color: var(--cor-cabecalho); background-color: #f0e6ff; }
+    .section-title { font-size: 1.1rem; color: var(--cor-letras-cabecalho); border-bottom: 2px solid var(--cor-letras-cabecalho); padding-bottom: 5px; margin: 15px 0 10px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+    .presets-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .preset-btn { padding: 10px; border: none; border-radius: 10px; background-color: rgba(255, 255, 255, 0.9); cursor: pointer; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px; color: #333; box-shadow: 0 3px 6px rgba(0,0,0,0.1); transition: all 0.2s; }
+    .preset-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.15); background-color: #fff; }
+    
     .control-group { margin-bottom: 12px; }
-    .control-group label { display: block; margin-bottom: 4px; font-size: 0.9rem; font-weight: bold; color: #555; }
-    .color-input-container { display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1px solid #eee; padding: 5px; border-radius: 4px; }
-    .color-picker-icon { font-size: 20px; color: #555; }
+    .control-group label { display: block; margin-bottom: 4px; font-size: 0.9rem; font-weight: bold; color: var(--menu-text-label); }
+    .color-input-container { display: flex; align-items: center; gap: 8px; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); padding: 8px; border-radius: 8px; background: rgba(255,255,255,0.15); box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+    .color-picker-icon { font-size: 18px; color: var(--menu-text-label); }
     .color-display { display: flex; align-items: center; flex: 1; justify-content: space-between; }
-    .color-code { font-family: monospace; font-size: 12px; color: #666; }
-    .color-preview { width: 18px; height: 18px; border: 1px solid #ccc; border-radius: 3px; }
+    .color-code { font-family: monospace; font-size: 12px; color: var(--menu-text-label); font-weight: bold; }
+    .color-preview { width: 22px; height: 22px; border: 2px solid #fff; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .color-input { position: absolute; opacity: 0; pointer-events: none; }
-    select { width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
-    .checkbox-group { display: flex; align-items: center; margin-bottom: 8px; font-size: 0.9rem; }
-    .checkbox-group input { margin-right: 8px; }
-    .checkbox-group input:disabled + label { color: #aaa; text-decoration: line-through; }
+    select { width: 100%; padding: 8px; border: none; border-radius: 8px; background: #fff; color: #333; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; }
+    
+    /* Estilo Bonitinho dos Checkboxes */
+    .checkbox-group { display: flex; align-items: center; margin-bottom: 10px; font-size: 0.9rem; color: var(--menu-text-label); font-weight: bold; cursor: pointer; }
+    .checkbox-group input[type="checkbox"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 2.5px solid var(--cor-letras-cabecalho);
+        border-radius: 6px;
+        background: rgba(255,255,255,0.1);
+        cursor: pointer;
+        position: relative;
+        margin-right: 10px;
+        flex-shrink: 0;
+        transition: background 0.2s, transform 0.1s;
+    }
+    .checkbox-group input[type="checkbox"]:checked {
+        background-color: var(--cor-letras-cabecalho);
+    }
+    .checkbox-group input[type="checkbox"]:checked::after {
+        content: '\f00c';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        color: var(--cor-cabecalho);
+        font-size: 13px;
+        left: 2px;
+        top: 1px;
+    }
+    .checkbox-group input[type="checkbox"]:active { transform: scale(0.9); }
+    .checkbox-group input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .checkbox-group input:disabled + label { text-decoration: line-through; opacity: 0.5; }
 
     /* Estilos de Formatação e Busca */
-    .format-toolbar { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-    .btn-format { background: #eee; border: 1px solid #ccc; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; }
-    .btn-format:hover { background: #ddd; }
+    .format-toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .btn-format { background: rgba(255,255,255,0.9); border: none; padding: 8px 10px; border-radius: 8px; cursor: pointer; font-size: 13px; color: #333; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); flex: 1; display: flex; align-items: center; justify-content: center; }
+    .btn-format:hover { background: #fff; transform: translateY(-1px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+    
     .search-container { display: flex; gap: 5px; margin-bottom: 10px; }
-    .search-input { flex: 1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; }
+    .search-input { flex: 1; padding: 10px; border: none; border-radius: 8px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); }
     mark { background-color: yellow; color: black; padding: 0; }
 
     /* Estilo do Interruptor Modo Seleção */
-    .selection-mode-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 15px; padding: 8px; background: #f8f0ff; border-radius: 10px; border: 1px solid #e0d0f0; }
-    .selection-label { font-size: 0.85rem; font-weight: bold; color: var(--cor-divisorias); }
-    .info-icon-small { color: #9370DB; cursor: help; font-size: 14px; }
+    .selection-mode-wrapper { display: flex; align-items: center; gap: 10px; margin-top: 5px; margin-bottom: 15px; padding: 8px; background: rgba(255,255,255,0.15); border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); }
+    .selection-label { font-size: 0.85rem; font-weight: bold; color: var(--menu-text-label); }
     .switch { position: relative; display: inline-block; width: 42px; height: 22px; flex-shrink: 0; }
     .switch input { opacity: 0; width: 0; height: 0; }
     .slider-toggle { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .3s; border-radius: 34px; }
     .slider-toggle:before { position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-    input:checked + .slider-toggle { background-color: var(--site-btn-bg); }
+    input:checked + .slider-toggle { background-color: var(--site-header-bg); border: 1px solid white; }
     input:checked + .slider-toggle:before { transform: translateX(20px); }
 
     /* Neon Effects */
@@ -291,13 +330,13 @@
     .neon-assinatura { text-shadow: 0 0 10px var(--cor-assinatura) !important; }
 
     /* Botão de Paleta */
-    .btn-palette-gen { background-color: var(--site-btn-bg); color: white; border: none; padding: 10px; border-radius: 6px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; }
+    .btn-palette-gen { background-color: var(--btn-palette-bg); color: white !important; border: none; padding: 12px; border-radius: 10px; width: 100%; cursor: pointer; font-weight: bold; margin-top: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 
     /* RESPONSIVIDADE MOBILE */
     @media (max-width: 900px) {
         .site-header h1 { font-size: 1.2rem; }
         .main-layout { flex-direction: column; width: 100%; overflow-x: hidden; }
-        .sidebar-container { width: 100%; height: auto; max-height: 50vh; position: relative; top: 0; border-right: none; border-bottom: 1px solid #ddd; z-index: 28; }
+        .sidebar-container { width: 100%; height: auto; max-height: 60vh; position: relative; top: 0; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.1); z-index: 28; }
         .sidebar-container.collapsed { display: none; margin-left: 0; }
         .content-area { padding: 15px 10px; width: 100%; max-width: 100vw; }
         .btn-show-sidebar { position: fixed; top: 70px; left: 10px; }
@@ -356,6 +395,10 @@
     .custom-title { text-align: center; color: var(--cor-titulo); margin-bottom: 15px; font-family: 'Indie Flower', cursive; font-weight: 700; font-size: 2.5em; width: 100%; outline: none; word-wrap: break-word; }
     .custom-footer { text-align: center; color: var(--cor-assinatura); font-weight: 400; font-family: 'Indie Flower', cursive; margin-top: 5px; width: 100%; outline: none; font-size: 1.2em; word-wrap: break-word; }
 
+    /* Pop-up do Recado */
+    .recado-text { text-align: left; line-height: 1.6; color: #333; font-size: 1.05rem; }
+    .recado-text b { color: #ff8c00; }
+
     /* INFORMAÇÕES (HORA DO PRINT) */
     .info-box { position: fixed; bottom: 70px; right: 20px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-width: 300px; display: none; }
     .info-box.show { display: block; }
@@ -402,6 +445,11 @@
     .sales-footer { background: linear-gradient(to right, #8a2be2, #6a0dad); color: white; text-align: center; padding: 20px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
     .btn-x-link { display: inline-flex; align-items: center; gap: 8px; background-color: white; color: #8a2be2; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 1rem; margin-top: 10px; }
     .btn-close-modal-sales { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.3); border: none; color: white; font-size: 1.5rem; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    /* Estilos mobile para o modal de venda */
+    @media (max-width: 768px) {
+        .sales-body { grid-template-columns: 1fr; }
+    }
 </style>
 </head>
 <body>
@@ -427,7 +475,6 @@
                 <span class="slider-toggle"></span>
             </label>
             <span class="selection-label">Selecionar Texto</span>
-            <i class="fas fa-info-circle info-icon-small" title="Enquanto ativo, o painel de mesclagem e personalização individual de célula é bloqueado para facilitar a seleção de palavras."></i>
         </div>
         <div class="format-toolbar">
             <button class="btn-format" onclick="formatSelection('bold')" title="Negrito"><b>B</b></button>
@@ -463,18 +510,18 @@
         </div>
 
         <div class="section-title">Efeitos e Extras</div>
-        <div class="checkbox-group">
+        <label class="checkbox-group">
             <input type="checkbox" id="neonTable" onchange="toggleNeon('table')">
-            <label for="neonTable">Efeito Neon Tabela</label>
-        </div>
-        <div class="checkbox-group">
+            <span>Efeito Neon Tabela</span>
+        </label>
+        <label class="checkbox-group">
             <input type="checkbox" id="neonTitle" onchange="toggleNeon('title')">
-            <label for="neonTitle">Efeito Neon Título</label>
-        </div>
-        <div class="checkbox-group">
+            <span>Efeito Neon Título</span>
+        </label>
+        <label class="checkbox-group">
             <input type="checkbox" id="neonFooter" onchange="toggleNeon('footer')">
-            <label for="neonFooter">Efeito Neon Assinatura</label>
-        </div>
+            <span>Efeito Neon Assinatura</span>
+        </label>
 
         <div class="section-title">Paleta Harmônica Automática</div>
         <div class="control-group">
@@ -512,9 +559,10 @@
 
         <div class="section-title">Estilo e Fonte</div>
         <div class="control-group"><select id="fontFamily" onchange="applyStyles()"><option value="'Comic Neue', cursive" selected>Comic Neue</option><option value="'Indie Flower', cursive">Indie Flower</option><option value="'Pacifico', cursive">Pacifico</option><option value="'Quicksand', sans-serif">Quicksand</option><option value="'Dancing Script', cursive">Dancing Script</option><option value="'Architects Daughter', cursive">Architects Daughter</option><option value="'Shadows Into Light', cursive">Shadows Into Light</option><option value="Arial, sans-serif">Arial</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Trebuchet MS', sans-serif">Trebuchet MS</option><option value="'Courier New', monospace">Courier New</option></select></div>
-        <div class="checkbox-group"><input type="checkbox" id="hasTitle" checked onchange="toggleTitle()"><label for="hasTitle">Mostrar Título</label></div>
-        <div class="checkbox-group"><input type="checkbox" id="hasFooter" checked onchange="toggleFooter()"><label for="hasFooter">Mostrar Assinatura</label></div>
-        <div class="checkbox-group"><input type="checkbox" id="stripedRows" checked onchange="toggleStripedOptions()"><label for="stripedRows">Tons Intercalados</label></div>
+        <label class="checkbox-group"><input type="checkbox" id="hasTitle" checked onchange="toggleTitle()"><span>Mostrar Título</span></label>
+        <label class="checkbox-group"><input type="checkbox" id="hasFooter" checked onchange="toggleFooter()"><span>Mostrar Assinatura</span></label>
+        <label class="checkbox-group"><input type="checkbox" id="stripedRows" checked onchange="toggleStripedOptions()"><span>Tons Intercalados</span></label>
+        
         <div id="stripedColorGroup" style="display: none; margin-top: 10px;">
             <div class="control-group"><div class="color-input-container" onclick="document.getElementById('stripedColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="stripedColorCode">#e6d6ff</span><div class="color-preview" id="stripedColorPreview" style="background-color: #e6d6ff"></div></div><input type="color" id="stripedColor" value="#e6d6ff" onchange="updateColorDisplay(this)" class="color-input"></div></div>
         </div>
@@ -581,6 +629,7 @@
             <button class="btn-action btn-print" onclick="togglePrintMode()"><i class="fas fa-camera"></i> Hora do Print</button>
             <button class="btn-action btn-share" onclick="openShareModal()"><i class="fab fa-twitter"></i> Compartilhar no X</button>
             <button class="btn-action btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Salvar PDF</button>
+            <button class="btn-action btn-recado" onclick="openRecadoModal()"><i class="fas fa-heart"></i> Recado</button>
             <button class="btn-action btn-reset" onclick="resetToDefault()"><i class="fas fa-sync-alt"></i> Restaurar Padrão</button>
         </div>
     </div>
@@ -593,6 +642,29 @@
     <p><strong>Para tirar um print pelo computador:</strong></p>
     <p>Pressione: <kbd>Windows + Shift + S</kbd> e selecione a área desejada.</p>
     <p><strong>Dica Extra:</strong> Segure o clique em uma célula para mesclar!</p>
+</div>
+
+<!-- Modal do Recado -->
+<div id="recadoModal" class="modal">
+    <div class="modal-content">
+        <h2>Um Recado Especial ✨</h2>
+        <div class="recado-text">
+            <p>Oiii! Fico muito feliz que esteja usando o TabeLaLa! 🧡</p>
+            <p>Você sabia que me ajudaria imensamente se compartilhasse o resultado da sua tabela ou uma visão do site nas redes sociais?</p>
+            <p>Se postar, não esqueça de me marcar:</p>
+            <ul>
+                <li>No Twitter: <b>@studies_lala</b></li>
+                <li>No Instagram: <b>@studies_lalaland</b></li>
+            </ul>
+            <p><b>OBS:</b> Como o acesso ao site é um produto exclusivo, me ajudaria muito se você compartilhasse o resultado da sua tabela ou sua experiência com o site sem divulgar o link direto, tá bom? Assim você valoriza meu trabalho <3</p>
+            <p>Se for postar um print ou foto, tente apenas deixar a barra de endereços do navegador fora da imagem. Assim o foco fica todo na sua tabela maravilhosa e o acesso ao site continua protegido! ✨</p>
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn modal-btn-secondary" onclick="closeRecadoModal()">
+                <i class="fas fa-check"></i> Entendido!
+            </button>
+        </div>
+    </div>
 </div>
 
 <!-- Modal para compartilhar no X -->
@@ -734,7 +806,6 @@
         const target = e.target;
         if (target.hasAttribute('contenteditable')) {
             const allowedKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'Escape', 'Shift', 'Control', 'Alt', 'Meta'];
-            // Permite atalhos de sistema para formatação (Ctrl+B, etc) mas bloqueia digitação manual
             if ((e.ctrlKey || e.metaKey) && ['b', 'i', 'u', 'a'].includes(e.key.toLowerCase())) return;
             if (!allowedKeys.includes(e.key)) {
                 e.preventDefault();
@@ -743,7 +814,7 @@
         }
     }, true);
 
-    // Intercepta colagem, deleção e inserção de caracteres (incluindo mobile)
+    // Intercepta colagem e mobile
     document.addEventListener('beforeinput', function(e) {
         if (e.target.hasAttribute('contenteditable')) {
             if (e.inputType.startsWith('insert') || e.inputType.startsWith('delete')) {
@@ -756,6 +827,10 @@
     function pasteTextOnly(event) { event.preventDefault(); openSalesModal(); }
     // --- FIM BLOQUEIO ---
 
+    function openRecadoModal() { document.getElementById('recadoModal').style.display = 'flex'; }
+    window.closeRecadoModal = function() { document.getElementById('recadoModal').style.display = 'none'; };
+
+    // Funções Auxiliares de Cor
     function hexToHSL(hex) {
         let r = parseInt(hex.slice(1, 3), 16) / 255;
         let g = parseInt(hex.slice(3, 5), 16) / 255;
@@ -788,10 +863,12 @@
     }
 
     function generateHarmonicPalette() {
+        document.getElementById('editableTable').classList.remove('jane-austen-mode');
         const baseHex = document.getElementById('basePaletteColor').value;
         const hsl = hexToHSL(baseHex);
         const contrastL = hsl.l > 50 ? 15 : 90;
         const textHex = hslToHex(hsl.h, hsl.s, contrastL);
+
         const colors = {
             bgPage: hslToHex(hsl.h, hsl.s, 94),
             bgCells: hslToHex(hsl.h, hsl.s, 90),
@@ -803,6 +880,7 @@
             titleColor: baseHex,
             footerColor: baseHex
         };
+
         for (let id in colors) {
             const input = document.getElementById(id);
             if (input) {
@@ -848,7 +926,9 @@
                 }
             };
             localStorage.setItem('tabeLaLaData', JSON.stringify(data));
-        } catch (e) { console.warn("Erro ao salvar."); }
+        } catch (e) {
+            console.warn("Espaço insuficiente no navegador.");
+        }
     }
 
     function toggleSelectionMode() {
@@ -883,7 +963,10 @@
             toggleStripedOptions();
             updateFirstColumnStyles();
             return true;
-        } catch (e) { return false; }
+        } catch (e) {
+            console.error("Erro ao carregar dados salvos", e);
+            return false;
+        }
     }
 
     function resetToDefault() {
@@ -910,11 +993,16 @@
             stripedRowsCheckbox.checked = false;
             stripedRowsCheckbox.disabled = true;
             toggleStripedOptions();
-        } else { stripedRowsCheckbox.disabled = false; }
+        } else {
+            stripedRowsCheckbox.disabled = false;
+        }
     }
 
     function undoMerge() {
-        if (historyStack.length === 0) { alert("Não há ações recentes para desfazer!"); return; }
+        if (historyStack.length === 0) {
+            alert("Não há ações recentes para desfazer!");
+            return;
+        }
         const lastState = historyStack.pop();
         const table = document.getElementById('editableTable');
         table.querySelector('thead').innerHTML = lastState.thead;
@@ -963,6 +1051,7 @@
         document.documentElement.style.setProperty('--cor-letras', document.getElementById('textColor').value);
         document.documentElement.style.setProperty('--cor-titulo', document.getElementById('titleColor').value);
         document.documentElement.style.setProperty('--cor-assinatura', document.getElementById('footerColor').value);
+        
         const headerBg = document.getElementById('headerBgColor').value;
         const headerText = document.getElementById('headerTextColor').value;
         document.documentElement.style.setProperty('--cor-cabecalho', headerBg);
@@ -970,7 +1059,15 @@
         document.documentElement.style.setProperty('--site-header-bg', headerBg);
         document.documentElement.style.setProperty('--site-header-text', headerText);
         document.documentElement.style.setProperty('--site-btn-bg', headerBg);
+        
+        const hslHeader = hexToHSL(headerBg);
+        const isDark = (hslHeader.l < 55); 
+        document.documentElement.style.setProperty('--menu-text-label', isDark ? '#FFFFFF' : '#000000');
+        const darkerPaletteBg = hslToHex(hslHeader.h, hslHeader.s, Math.max(0, hslHeader.l - 35));
+        document.documentElement.style.setProperty('--btn-palette-bg', darkerPaletteBg);
+
         document.querySelectorAll('th, td, .custom-title, .custom-footer, table, body').forEach(el => { el.style.fontFamily = fontFamily; });
+        
         const table = document.getElementById('editableTable');
         const stripedRows = document.getElementById('stripedRows').checked;
         const oldStyle = document.getElementById('custom-striped-style');
@@ -1083,15 +1180,14 @@
             else if (direction === 'down') { const nr = cellInfo.r + cellInfo.rowSpan; if (grid[nr] && grid[nr][cellInfo.c]) { neighbor = grid[nr][cellInfo.c]; if (neighbor.c === cellInfo.c && neighbor.colSpan === cellInfo.colSpan) { selectedMergeCell.rowSpan += neighbor.element.rowSpan; neighbor.element.remove(); } } }
             else if (direction === 'left') { const nc = cellInfo.c - 1; if (nc >= 0 && grid[cellInfo.r][nc]) { neighbor = grid[cellInfo.r][nc]; if (neighbor.r === cellInfo.r && neighbor.rowSpan === cellInfo.rowSpan) { neighbor.element.colSpan += selectedMergeCell.colSpan; selectedMergeCell.remove(); } } }
             else if (direction === 'up') { const nr = cellInfo.r - 1; if (nr >= 0 && grid[nr][cellInfo.c]) { neighbor = grid[nr][cellInfo.c]; if (neighbor.c === cellInfo.c && neighbor.colSpan === cellInfo.colSpan) { neighbor.element.rowSpan += selectedMergeCell.rowSpan; selectedMergeCell.remove(); } } }
-        } catch (err) { }
+        } catch (err) { console.error(err); }
         checkMergedCells();
         hideMergeUI(); updateFirstColumnStyles(); applyStyles(); persistData();
     }
 
     function updateCellCustomStyle(property, value) {
         if (selectedMergeCell) {
-            if (property === 'backgroundColor') { selectedMergeCell.style.setProperty('background-color', value, 'important'); }
-            else { selectedMergeCell.style[property] = value; }
+            if (property === 'backgroundColor') { selectedMergeCell.style.setProperty('background-color', value, 'important'); } else { selectedMergeCell.style[property] = value; }
             persistData();
         }
     }
@@ -1180,8 +1276,13 @@
 
     function closeShareModal() { document.getElementById('shareModal').style.display = 'none'; }
     function downloadImage() { if (!tableImageDataUrl) return; const link = document.createElement('a'); const title = document.getElementById('customTitle').innerText || 'minha-tabela'; link.download = `${title.toLowerCase().replace(/\s+/g, '-')}.png`; link.href = tableImageDataUrl; document.body.appendChild(link); link.click(); document.body.removeChild(link); }
-    function copyText() { const textarea = document.getElementById('tweetText'); textarea.select(); try { document.execCommand('copy'); alert('Texto copiado!'); } catch (err) { } }
-    function openTwitter() { const tweetText = encodeURIComponent(document.getElementById('tweetText').value); const url = `https://twitter.com/intent/tweet?text=${tweetText}`; window.open(url, '_blank'); }
+    function copyText() { const textarea = document.getElementById('tweetText'); textarea.select(); try { document.execCommand('copy'); alert('Texto copiado!'); } catch (err) { alert('Erro ao copiar texto.'); } }
+    
+    function openTwitter() {
+        const tweetText = encodeURIComponent(document.getElementById('tweetText').value);
+        const url = `https://twitter.com/intent/tweet?text=${tweetText}`;
+        window.open(url, '_blank');
+    }
 
     function formatSelection(cmd, val = null) {
         const selection = window.getSelection();
@@ -1226,11 +1327,7 @@
         captureTableImage().then(() => {
             const isLandscape = tableCanvasObj.width > tableCanvasObj.height;
             const pdfWindow = window.open('', '_blank');
-            pdfWindow.document.write(`<html><head><title>Exportar PDF</title><style>
-                @page { size: ${isLandscape ? 'landscape' : 'portrait'}; margin: 0; }
-                body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; background: white; overflow: hidden; }
-                img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-            </style></head><body><img src="${tableImageDataUrl}"></body></html>`);
+            pdfWindow.document.write(`<html><head><title>Exportar PDF</title><style>@page { size: ${isLandscape ? 'landscape' : 'portrait'}; margin: 0; } body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; width: 100vw; height: 100vh; background: white; overflow: hidden; } img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }</style></head><body><img src="${tableImageDataUrl}"></body></html>`);
             pdfWindow.document.close();
             setTimeout(() => { pdfWindow.print(); pdfWindow.close(); }, 800);
         }).catch(err => { alert("Erro ao gerar PDF."); });
@@ -1241,6 +1338,7 @@
     const chatNotification = document.getElementById('chatNotification');
     const chatMessages = document.getElementById('chatMessages');
     const chatReplies = document.getElementById('chatReplies');
+    let notificationTimer;
 
     function showNotification() { chatNotification.classList.add('visible'); chatIconContainer.classList.add('vibrating'); }
     function toggleChat() { chatBox.classList.toggle('show'); if (chatBox.classList.contains('show')) { chatNotification.classList.remove('visible'); chatIconContainer.classList.remove('vibrating'); } }
@@ -1252,24 +1350,36 @@
         addMessage(replyText, 'user'); 
         chatReplies.innerHTML = ''; 
         setTimeout(() => { 
-            if (replyText.includes("outros cupons")) { addMessage('Sim! 🧡<br>Eu tenho outros cupons disponíveis, e você pode encontrar todos eles no meu Linktree:<br>👉 <a href="https://linktr.ee/lalatears" target="_blank">https://linktr.ee/lalatears</a>'); } 
-            else if (replyText.includes("aproveitar agora")) { addMessage("Perfeito! Não se esqueça de usar o cupom <strong>LALAVEST</strong> no site <a href='https://discursivas.com' target='_blank'>discursivas.com</a>."); } 
-            else { addMessage("Sem problemas! Fica para a próxima. 😉"); } 
+            if (replyText.includes("outros cupons")) { 
+                addMessage('Sim! 🧡<br>Eu tenho outros cupons disponíveis, e você pode encontrar todos eles no meu Linktree:<br>👉 <a href="https://linktr.ee/lalatears" target="_blank">https://linktr.ee/lalatears</a><br><br>Fique à vontade para conferir e aproveitar os descontos!'); 
+            } else if (replyText.includes("aproveitar agora")) { 
+                addMessage("Perfeito! Não se esqueça de usar o cupom <strong>LALAVEST</strong> no site <a href='https://discursivas.com' target='_blank'>discursivas.com</a>. Boas compras!"); 
+            } else { addMessage("Sem problemas! Fica para a próxima. 😉"); } 
         }, 800); 
     }
 
-    function startChatFlow() { chatMessages.innerHTML = ''; chatReplies.innerHTML = ''; addMessage('Eu tenho um cupom exclusivo para o site Discursivas! Use <strong>LALAVEST</strong> na finalização da compra.'); showInitialReplies(); }
+    function startChatFlow() { 
+        chatMessages.innerHTML = ''; 
+        chatReplies.innerHTML = ''; 
+        addMessage('Eu tenho um cupom exclusivo que garante um desconto especial na compra de cursos de matérias isoladas para pré-vestibular no site Discursivas!<br><br>É só acessar <a href="https://discursivas.com" target="_blank">discursivas.com</a> e aplicar o cupom <strong>LALAVEST</strong> na finalização da compra. Aproveite para turbinar seus estudos com materiais completos e focados no que realmente cai na prova!'); 
+        showInitialReplies(); 
+    }
 
     window.onload = function() {
         if (!loadPersistedData()) { applyPreset('doceLavanda'); }
         startChatFlow();
-        setTimeout(showNotification, 60000);
-        window.onclick = function(event) { if (event.target == document.getElementById('shareModal')) { closeShareModal(); } if (event.target == document.getElementById('sales-modal-container')) { closeSalesModal(); } }
+        notificationTimer = setTimeout(showNotification, 60000);
+        window.onclick = function(event) { 
+            if (event.target == document.getElementById('shareModal') || event.target == document.getElementById('recadoModal') || event.target == document.getElementById('sales-modal-container')) { 
+                closeShareModal(); closeRecadoModal(); closeSalesModal();
+            } 
+        }
         document.body.addEventListener('input', (e) => { if (e.target.hasAttribute('contenteditable')) { persistData(); } });
     };
 </script>
 </body>
 </html>
+
 
 
 
