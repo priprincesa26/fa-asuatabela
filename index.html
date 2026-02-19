@@ -57,6 +57,7 @@
         color: var(--site-header-text);
         padding: 15px 20px;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -74,6 +75,27 @@
         font-weight: bold;
         text-align: center;
         word-wrap: break-word;
+    }
+
+    /* ABAS DE VERSÃO */
+    .version-tabs {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .tab-btn {
+        padding: 8px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        cursor: pointer;
+        font-weight: bold;
+        background: rgba(255,255,255,0.3);
+        color: white;
+        transition: all 0.3s;
+    }
+    .tab-btn.active {
+        background: white;
+        color: var(--site-header-bg);
     }
 
     /* LAYOUT PRINCIPAL */
@@ -95,8 +117,8 @@
         box-shadow: 2px 0 10px rgba(0,0,0,0.05);
         flex-shrink: 0;
         position: sticky;
-        top: 60px; 
-        height: calc(100vh - 60px); 
+        top: 105px; 
+        height: calc(100vh - 105px); 
         overflow-y: auto;
         z-index: 20;
         transition: margin-left 0.4s ease;
@@ -216,7 +238,7 @@
 
     .btn-show-sidebar {
         position: fixed;
-        top: 80px;
+        top: 120px;
         left: 20px;
         background-color: var(--site-btn-bg);
         color: var(--site-header-text);
@@ -339,7 +361,7 @@
         .sidebar-container { width: 100%; height: auto; max-height: 60vh; position: relative; top: 0; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.1); z-index: 28; }
         .sidebar-container.collapsed { display: none; margin-left: 0; }
         .content-area { padding: 15px 10px; width: 100%; max-width: 100vw; }
-        .btn-show-sidebar { position: fixed; top: 70px; left: 10px; }
+        .btn-show-sidebar { position: fixed; top: 120px; left: 10px; }
         .custom-title { font-size: 1.8em; }
         .actions-panel { padding-bottom: 100px; }
         .btn-action { font-size: 0.85rem; padding: 10px; min-width: 45%; }
@@ -455,6 +477,10 @@
 <body>
 <header class="site-header">
     <h1>TabeLaLa - Monte sua tabela com @studies_lala</h1>
+    <div class="version-tabs">
+        <button class="tab-btn active" id="tabPremium" onclick="switchVersion('premium')">VERSÃO PREMIUM (TESTE)</button>
+        <button class="tab-btn" id="tabGratuita" onclick="switchVersion('free')">VERSÃO GRATUITA</button>
+    </div>
 </header>
 
 <div class="main-layout">
@@ -468,104 +494,112 @@
             <input type="text" id="tableSearch" class="search-input" placeholder="Buscar termo..." oninput="handleSearch(this.value)">
         </div>
 
-        <div class="section-title">Formatação (Seleção)</div>
-        <div class="selection-mode-wrapper">
-            <label class="switch">
-                <input type="checkbox" id="selectionModeToggle" onchange="toggleSelectionMode()">
-                <span class="slider-toggle"></span>
+        <div id="sectionFormatting">
+            <div class="section-title">Formatação (Seleção)</div>
+            <div class="selection-mode-wrapper">
+                <label class="switch">
+                    <input type="checkbox" id="selectionModeToggle" onchange="toggleSelectionMode()">
+                    <span class="slider-toggle"></span>
+                </label>
+                <span class="selection-label">Selecionar Texto</span>
+            </div>
+            <div class="format-toolbar">
+                <button class="btn-format" onclick="formatSelection('bold')" title="Negrito"><b>B</b></button>
+                <button class="btn-format" onclick="formatSelection('italic')" title="Itálico"><i>I</i></button>
+                <button class="btn-format" onclick="formatSelection('underline')" title="Sublinhado"><u>U</u></button>
+                <button class="btn-format" onclick="formatSelection('hiliteColor', document.getElementById('highlightColor').value)" title="Grifar">🖍️</button>
+                <input type="color" id="highlightColor" value="#ffff00" style="width:30px; height:24px; padding:0; border:none;">
+            </div>
+            <div class="format-toolbar">
+                <button class="btn-format" onclick="formatSelection('justifyLeft')" title="Esquerda"><i class="fas fa-align-left"></i></button>
+                <button class="btn-format" onclick="formatSelection('justifyCenter')" title="Centro"><i class="fas fa-align-center"></i></button>
+                <button class="btn-format" onclick="formatSelection('justifyRight')" title="Direita"><i class="fas fa-align-right"></i></button>
+                <button class="btn-format" onclick="formatSelection('justifyFull')" title="Justificado"><i class="fas fa-align-justify"></i></button>
+            </div>
+        </div>
+
+        <div id="sectionBorders">
+            <div class="section-title">Bordas da Tabela</div>
+            <div class="control-group">
+                <label>Estilo da Borda</label>
+                <select id="borderStyle" onchange="updateBorders()">
+                    <option value="solid">Reta (Sólida)</option>
+                    <option value="dashed">Tracejada</option>
+                    <option value="dotted">Pontilhada</option>
+                    <option value="double">Dupla</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Arredondamento: <span id="radiusValue">0</span>px</label>
+                <input type="range" id="borderRadius" min="0" max="50" value="0" oninput="updateBorders()">
+            </div>
+            <div class="control-group">
+                <label>Espessura: <span id="weightValue">1</span>px</label>
+                <input type="range" id="borderWeight" min="0" max="10" step="1" value="1" oninput="updateBorders()">
+            </div>
+        </div>
+
+        <div id="sectionEffects">
+            <div class="section-title">Efeitos e Extras</div>
+            <label class="checkbox-group">
+                <input type="checkbox" id="neonTable" onchange="toggleNeon('table')">
+                <span>Efeito Neon Tabela</span>
             </label>
-            <span class="selection-label">Selecionar Texto</span>
-        </div>
-        <div class="format-toolbar">
-            <button class="btn-format" onclick="formatSelection('bold')" title="Negrito"><b>B</b></button>
-            <button class="btn-format" onclick="formatSelection('italic')" title="Itálico"><i>I</i></button>
-            <button class="btn-format" onclick="formatSelection('underline')" title="Sublinhado"><u>U</u></button>
-            <button class="btn-format" onclick="formatSelection('hiliteColor', document.getElementById('highlightColor').value)" title="Grifar">🖍️</button>
-            <input type="color" id="highlightColor" value="#ffff00" style="width:30px; height:24px; padding:0; border:none;">
-        </div>
-        <div class="format-toolbar">
-            <button class="btn-format" onclick="formatSelection('justifyLeft')" title="Esquerda"><i class="fas fa-align-left"></i></button>
-            <button class="btn-format" onclick="formatSelection('justifyCenter')" title="Centro"><i class="fas fa-align-center"></i></button>
-            <button class="btn-format" onclick="formatSelection('justifyRight')" title="Direita"><i class="fas fa-align-right"></i></button>
-            <button class="btn-format" onclick="formatSelection('justifyFull')" title="Justificado"><i class="fas fa-align-justify"></i></button>
+            <label class="checkbox-group">
+                <input type="checkbox" id="neonTitle" onchange="toggleNeon('title')">
+                <span>Efeito Neon Título</span>
+            </label>
+            <label class="checkbox-group">
+                <input type="checkbox" id="neonFooter" onchange="toggleNeon('footer')">
+                <span>Efeito Neon Assinatura</span>
+            </label>
         </div>
 
-        <div class="section-title">Bordas da Tabela</div>
-        <div class="control-group">
-            <label>Estilo da Borda</label>
-            <select id="borderStyle" onchange="updateBorders()">
-                <option value="solid">Reta (Sólida)</option>
-                <option value="dashed">Tracejada</option>
-                <option value="dotted">Pontilhada</option>
-                <option value="double">Dupla</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label>Arredondamento: <span id="radiusValue">0</span>px</label>
-            <input type="range" id="borderRadius" min="0" max="50" value="0" oninput="updateBorders()">
-        </div>
-        <div class="control-group">
-            <label>Espessura: <span id="weightValue">1</span>px</label>
-            <input type="range" id="borderWeight" min="0" max="10" step="1" value="1" oninput="updateBorders()">
-        </div>
-
-        <div class="section-title">Efeitos e Extras</div>
-        <label class="checkbox-group">
-            <input type="checkbox" id="neonTable" onchange="toggleNeon('table')">
-            <span>Efeito Neon Tabela</span>
-        </label>
-        <label class="checkbox-group">
-            <input type="checkbox" id="neonTitle" onchange="toggleNeon('title')">
-            <span>Efeito Neon Título</span>
-        </label>
-        <label class="checkbox-group">
-            <input type="checkbox" id="neonFooter" onchange="toggleNeon('footer')">
-            <span>Efeito Neon Assinatura</span>
-        </label>
-
-        <div class="section-title">Paleta Harmônica Automática</div>
-        <div class="control-group">
-            <label>Cor base da paleta</label>
-            <input type="color" id="basePaletteColor" value="#9370DB" style="width:100%; height:40px; cursor:pointer; border:1px solid #ddd; border-radius:4px;">
-            <button class="btn-palette-gen" onclick="generateHarmonicPalette()">Gerar paleta automática</button>
+        <div id="sectionPalette">
+            <div class="section-title">Paleta Harmônica Automática</div>
+            <div class="control-group">
+                <label>Cor base da paleta</label>
+                <input type="color" id="basePaletteColor" value="#9370DB" style="width:100%; height:40px; cursor:pointer; border:1px solid #ddd; border-radius:4px;">
+                <button class="btn-palette-gen" onclick="generateHarmonicPalette()">Gerar paleta automática</button>
+            </div>
         </div>
 
         <div class="section-title">Temas Prontos</div>
-        <div class="presets-grid">
+        <div class="presets-grid" id="presetsContainer">
             <button class="preset-btn" onclick="applyPreset('doceLavanda')"><i class="fas fa-heart"></i> LaLa</button>
-            <button class="preset-btn" onclick="applyPreset('florestaEncantada')"><i class="fas fa-atom"></i> Marie Curie</button>
-            <button class="preset-btn" onclick="applyPreset('cadernoClassico')"><i class="fas fa-ankh"></i> Cleópatra</button>
-            <button class="preset-btn" onclick="applyPreset('brisaDoMar')"><i class="fas fa-book-reader"></i> Carolina M. Jesus</button>
-            <button class="preset-btn" onclick="applyPreset('cinzaMinimalista')"><i class="fas fa-laptop-code"></i> Ada Lovelace</button>
-            <button class="preset-btn" onclick="applyPreset('ceuEstrelado')"><i class="fas fa-graduation-cap"></i> Anna J. Cooper</button>
-            <button class="preset-btn" onclick="applyPreset('jardimSecreto')"><i class="fas fa-shoe-prints"></i> Ana Botafogo</button>
-            <button class="preset-btn" onclick="applyPreset('oceanoProfundo')"><i class="fas fa-pen-nib"></i> C. Lispector</button>
-            <button class="preset-btn" onclick="applyPreset('terracotaSol')"><i class="fas fa-brain"></i> Nise da Silveira</button>
-            <button class="preset-btn" onclick="applyPreset('grafiteAmarelo')"><i class="fas fa-bus"></i> Rosa Parks</button>
-            <button class="preset-btn" onclick="applyPreset('rosaCereja')"><i class="fas fa-book"></i> Malala Y.</button>
-            <button class="preset-btn" onclick="applyPreset('docePastel')"><i class="fas fa-venus-mars"></i> C. Jorgensen</button>
-            <button class="preset-btn" onclick="applyPreset('mentaSuave')"><i class="fas fa-feather-alt"></i> Jane Austen</button>
+            <button class="preset-btn" id="presetBW" onclick="applyPreset('pretoEBranco')" style="display:none;"><i class="fas fa-adjust"></i> P&B Simples</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('florestaEncantada')"><i class="fas fa-atom"></i> Marie Curie</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('cadernoClassico')"><i class="fas fa-ankh"></i> Cleópatra</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('brisaDoMar')"><i class="fas fa-book-reader"></i> Carolina M. Jesus</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('cinzaMinimalista')"><i class="fas fa-laptop-code"></i> Ada Lovelace</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('ceuEstrelado')"><i class="fas fa-graduation-cap"></i> Anna J. Cooper</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('jardimSecreto')"><i class="fas fa-shoe-prints"></i> Ana Botafogo</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('oceanoProfundo')"><i class="fas fa-pen-nib"></i> C. Lispector</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('terracotaSol')"><i class="fas fa-brain"></i> Nise da Silveira</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('grafiteAmarelo')"><i class="fas fa-bus"></i> Rosa Parks</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('rosaCereja')"><i class="fas fa-book"></i> Malala Y.</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('docePastel')"><i class="fas fa-venus-mars"></i> C. Jorgensen</button>
+            <button class="preset-btn premium-only" onclick="applyPreset('mentaSuave')"><i class="fas fa-feather-alt"></i> Jane Austen</button>
         </div>
 
-        <div class="section-title">Configurações de Cores</div>
-        <div class="control-group"><label>Fundo da Página</label><div class="color-input-container" onclick="document.getElementById('bgPage').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="bgPageCode">#F5EBFF</span><div class="color-preview" id="bgPagePreview" style="background-color: #F5EBFF"></div></div><input type="color" id="bgPage" value="#F5EBFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Fundo das Células</label><div class="color-input-container" onclick="document.getElementById('bgCells').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="bgCellsCode">#F8F2FF</span><div class="color-preview" id="bgCellsPreview" style="background-color: #F8F2FF"></div></div><input type="color" id="bgCells" value="#F8F2FF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Cor das Divisórias</label><div class="color-input-container" onclick="document.getElementById('borderColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="borderColorCode">#4B0082</span><div class="color-preview" id="borderColorPreview" style="background-color: #4B0082"></div></div><input type="color" id="borderColor" value="#4B0082" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Cor das Letras</label><div class="color-input-container" onclick="document.getElementById('textColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="textColorCode">#4A2568</span><div class="color-preview" id="textColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="textColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Cor do Título</label><div class="color-input-container" onclick="document.getElementById('titleColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="titleColorCode">#4A2568</span><div class="color-preview" id="titleColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="titleColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Cor da Assinatura</label><div class="color-input-container" onclick="document.getElementById('footerColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="footerColorCode">#9370DB</span><div class="color-preview" id="footerColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="footerColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Cor do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerBgColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerBgColorCode">#9370DB</span><div class="color-preview" id="headerBgColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="headerBgColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        <div class="control-group"><label>Texto do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerTextColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerTextColorCode">#FFFFFF</span><div class="color-preview" id="headerTextColorPreview" style="background-color: #FFFFFF"></div></div><input type="color" id="headerTextColor" value="#FFFFFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+        <div id="sectionColors">
+            <div class="section-title">Configurações de Cores</div>
+            <div class="control-group"><label>Fundo da Página</label><div class="color-input-container" onclick="document.getElementById('bgPage').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="bgPageCode">#F5EBFF</span><div class="color-preview" id="bgPagePreview" style="background-color: #F5EBFF"></div></div><input type="color" id="bgPage" value="#F5EBFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Fundo das Células</label><div class="color-input-container" onclick="document.getElementById('bgCells').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="bgCellsCode">#F8F2FF</span><div class="color-preview" id="bgCellsPreview" style="background-color: #F8F2FF"></div></div><input type="color" id="bgCells" value="#F8F2FF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Cor das Divisórias</label><div class="color-input-container" onclick="document.getElementById('borderColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="borderColorCode">#4B0082</span><div class="color-preview" id="borderColorPreview" style="background-color: #4B0082"></div></div><input type="color" id="borderColor" value="#4B0082" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Cor das Letras</label><div class="color-input-container" onclick="document.getElementById('textColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="textColorCode">#4A2568</span><div class="color-preview" id="textColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="textColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Cor do Título</label><div class="color-input-container" onclick="document.getElementById('titleColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="titleColorCode">#4A2568</span><div class="color-preview" id="titleColorPreview" style="background-color: #4A2568"></div></div><input type="color" id="titleColor" value="#4A2568" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Cor da Assinatura</label><div class="color-input-container" onclick="document.getElementById('footerColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="footerColorCode">#9370DB</span><div class="color-preview" id="footerColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="footerColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Cor do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerBgColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerBgColorCode">#9370DB</span><div class="color-preview" id="headerBgColorPreview" style="background-color: #9370DB"></div></div><input type="color" id="headerBgColor" value="#9370DB" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+            <div class="control-group"><label>Texto do Cabeçalho</label><div class="color-input-container" onclick="document.getElementById('headerTextColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="headerTextColorCode">#FFFFFF</span><div class="color-preview" id="headerTextColorPreview" style="background-color: #FFFFFF"></div></div><input type="color" id="headerTextColor" value="#FFFFFF" onchange="updateColorDisplay(this)" class="color-input"></div></div>
+        </div>
 
         <div class="section-title">Estilo e Fonte</div>
-        <div class="control-group"><select id="fontFamily" onchange="applyStyles()"><option value="'Comic Neue', cursive" selected>Comic Neue</option><option value="'Indie Flower', cursive">Indie Flower</option><option value="'Pacifico', cursive">Pacifico</option><option value="'Quicksand', sans-serif">Quicksand</option><option value="'Dancing Script', cursive">Dancing Script</option><option value="'Architects Daughter', cursive">Architects Daughter</option><option value="'Shadows Into Light', cursive">Shadows Into Light</option><option value="Arial, sans-serif">Arial</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Trebuchet MS', sans-serif">Trebuchet MS</option><option value="'Courier New', monospace">Courier New</option></select></div>
+        <div class="control-group" id="groupFontFamily"><select id="fontFamily" onchange="applyStyles()"><option value="'Comic Neue', cursive" selected>Comic Neue</option><option value="'Indie Flower', cursive">Indie Flower</option><option value="'Pacifico', cursive">Pacifico</option><option value="'Quicksand', sans-serif">Quicksand</option><option value="'Dancing Script', cursive">Dancing Script</option><option value="'Architects Daughter', cursive">Architects Daughter</option><option value="'Shadows Into Light', cursive">Shadows Into Light</option><option value="Arial, sans-serif">Arial</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Trebuchet MS', sans-serif">Trebuchet MS</option><option value="'Courier New', monospace">Courier New</option></select></div>
         <label class="checkbox-group"><input type="checkbox" id="hasTitle" checked onchange="toggleTitle()"><span>Mostrar Título</span></label>
-        <label class="checkbox-group"><input type="checkbox" id="hasFooter" checked onchange="toggleFooter()"><span>Mostrar Assinatura</span></label>
+        <label class="checkbox-group" id="groupHasFooter"><input type="checkbox" id="hasFooter" checked onchange="toggleFooter()"><span>Mostrar Assinatura</span></label>
         <label class="checkbox-group"><input type="checkbox" id="stripedRows" checked onchange="toggleStripedOptions()"><span>Tons Intercalados</span></label>
         
-        <div id="stripedColorGroup" style="display: none; margin-top: 10px;">
-            <div class="control-group"><div class="color-input-container" onclick="document.getElementById('stripedColor').click()"><i class="fas fa-palette color-picker-icon"></i><div class="color-display"><span class="color-code" id="stripedColorCode">#e6d6ff</span><div class="color-preview" id="stripedColorPreview" style="background-color: #e6d6ff"></div></div><input type="color" id="stripedColor" value="#e6d6ff" onchange="updateColorDisplay(this)" class="color-input"></div></div>
-        </div>
     </div>
 
     <div class="content-area">
@@ -625,11 +659,11 @@
             <button class="btn-action" onclick="addColumn()"><i class="fas fa-plus"></i> Adicionar Coluna</button>
             <button class="btn-action" onclick="removeRow()"><i class="fas fa-minus"></i> Remover Linha</button>
             <button class="btn-action" onclick="removeColumn()"><i class="fas fa-minus"></i> Remover Coluna</button>
-            <button class="btn-action btn-undo" onclick="undoMerge()"><i class="fas fa-undo"></i> Desfazer Mescla</button>
+            <button class="btn-action btn-undo premium-only" onclick="undoMerge()"><i class="fas fa-undo"></i> Desfazer Mescla</button>
             <button class="btn-action btn-print" onclick="togglePrintMode()"><i class="fas fa-camera"></i> Hora do Print</button>
             <button class="btn-action btn-share" onclick="openShareModal()"><i class="fab fa-twitter"></i> Compartilhar no X</button>
-            <button class="btn-action btn-pdf" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Salvar PDF</button>
-            <button class="btn-action btn-recado" onclick="openRecadoModal()"><i class="fas fa-heart"></i> Recado</button>
+            <button class="btn-action btn-pdf premium-only" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Salvar PDF</button>
+            <button class="btn-action btn-recado premium-only" onclick="openRecadoModal()"><i class="fas fa-heart"></i> Recado</button>
             <button class="btn-action btn-reset" onclick="resetToDefault()"><i class="fas fa-sync-alt"></i> Restaurar Padrão</button>
         </div>
     </div>
@@ -778,8 +812,10 @@
 </div>
 
 <script>
+    let activeStripedColor = '#e6d6ff';
     const presets = {
         doceLavanda: { bgPage: '#F5EBFF', bgCells: '#F8F2FF', borderColor: '#4B0082', textColor: '#4A2568', titleColor: '#4A2568', footerColor: '#9370DB', headerBgColor: '#9370DB', headerTextColor: '#FFFFFF', stripedColor: '#e6d6ff', fontFamily: "'Comic Neue', cursive" },
+        pretoEBranco: { bgPage: '#FFFFFF', bgCells: '#FFFFFF', borderColor: '#000000', textColor: '#808080', titleColor: '#000000', footerColor: '#000000', headerBgColor: '#D3D3D3', headerTextColor: '#000000', stripedColor: '#F0F0F0', fontFamily: "Arial, sans-serif" },
         florestaEncantada: { bgPage: '#f0fff0', bgCells: '#fafffa', borderColor: '#006400', textColor: '#2f4f4f', titleColor: '#2e8b57', footerColor: '#2e8b57', headerBgColor: '#2e8b57', headerTextColor: '#ffffff', stripedColor: '#E8F5E9', fontFamily: "'Architects Daughter', cursive" },
         cadernoClassico: { bgPage: '#fdf5e6', bgCells: '#fffaf0', borderColor: '#8b4513', textColor: '#696969', titleColor: '#8b4513', footerColor: '#a0522d', headerBgColor: '#d2b48c', headerTextColor: '#4d3a24', stripedColor: '#F5F5DC', fontFamily: "'Georgia', serif" },
         brisaDoMar: { bgPage: '#0A1A2F', bgCells: '#122B43', borderColor: '#0077CC', textColor: '#E0F2FF', titleColor: '#4DA6FF', footerColor: '#66B3FF', headerBgColor: '#005A9E', headerTextColor: '#FFFFFF', stripedColor: '#1A365D', fontFamily: "Arial, sans-serif" },
@@ -796,6 +832,79 @@
 
     let historyStack = [];
     let isSelectionModeActive = false;
+    let currentVersion = 'premium'; // 'premium' ou 'free'
+
+    // --- LÓGICA DE ABAS ---
+    function switchVersion(v) {
+        currentVersion = v;
+        const premiumOnly = document.querySelectorAll('.premium-only');
+        const tabPremium = document.getElementById('tabPremium');
+        const tabGratuita = document.getElementById('tabGratuita');
+        const footer = document.getElementById('customFooter');
+        
+        // Esconder/Mostrar seções específicas
+        const sFormatting = document.getElementById('sectionFormatting');
+        const sBorders = document.getElementById('sectionBorders');
+        const sEffects = document.getElementById('sectionEffects');
+        const sPalette = document.getElementById('sectionPalette');
+        const sColors = document.getElementById('sectionColors');
+        const gFontFamily = document.getElementById('groupFontFamily');
+        const gHasFooter = document.getElementById('groupHasFooter');
+        const presetBW = document.getElementById('presetBW');
+
+        if (v === 'free') {
+            tabGratuita.classList.add('active');
+            tabPremium.classList.remove('active');
+            premiumOnly.forEach(el => el.style.display = 'none');
+            sFormatting.style.display = 'none';
+            sBorders.style.display = 'none';
+            sEffects.style.display = 'none';
+            sPalette.style.display = 'none';
+            sColors.style.display = 'none';
+            gFontFamily.style.display = 'none';
+            gHasFooter.style.display = 'none';
+            presetBW.style.display = 'flex';
+            
+            // Forçar configurações da Versão Gratuita
+            document.getElementById('fontFamily').value = "Arial, sans-serif";
+            document.getElementById('borderRadius').value = 0;
+            document.getElementById('borderWeight').value = 1;
+            document.getElementById('borderStyle').value = "solid";
+            
+            // Assinatura Fixa
+            footer.innerText = "Feito com o site da @studies_lala";
+            footer.contentEditable = "false";
+            document.getElementById('hasFooter').checked = true;
+            document.getElementById('hasFooter').disabled = true;
+
+            // Desligar Neons
+            document.getElementById('neonTable').checked = false;
+            document.getElementById('neonTitle').checked = false;
+            document.getElementById('neonFooter').checked = false;
+            toggleNeon('table'); toggleNeon('title'); toggleNeon('footer');
+
+            applyPreset('doceLavanda');
+        } else {
+            tabPremium.classList.add('active');
+            tabGratuita.classList.remove('active');
+            premiumOnly.forEach(el => el.style.display = 'flex');
+            sFormatting.style.display = 'block';
+            sBorders.style.display = 'block';
+            sEffects.style.display = 'block';
+            sPalette.style.display = 'block';
+            sColors.style.display = 'block';
+            gFontFamily.style.display = 'block';
+            gHasFooter.style.display = 'block';
+            presetBW.style.display = 'none';
+
+            footer.contentEditable = "true";
+            document.getElementById('hasFooter').disabled = false;
+            
+            applyPreset('doceLavanda');
+        }
+        applyStyles();
+        updateBorders();
+    }
 
     // --- FUNÇÕES DE BLOQUEIO DE EDIÇÃO TEXTUAL (PRÉ-VENDA) ---
     function openSalesModal() { document.getElementById('sales-modal-container').style.display = 'flex'; }
@@ -803,6 +912,8 @@
 
     // Intercepta qualquer tentativa de modificar texto via teclado
     document.addEventListener('keydown', function(e) {
+        if (currentVersion === 'free') return; // Permite edição na versão gratuita
+        
         const target = e.target;
         if (target.hasAttribute('contenteditable')) {
             const allowedKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Tab', 'Escape', 'Shift', 'Control', 'Alt', 'Meta'];
@@ -816,6 +927,8 @@
 
     // Intercepta colagem e mobile
     document.addEventListener('beforeinput', function(e) {
+        if (currentVersion === 'free') return; // Permite edição na versão gratuita
+        
         if (e.target.hasAttribute('contenteditable')) {
             if (e.inputType.startsWith('insert') || e.inputType.startsWith('delete')) {
                 e.preventDefault();
@@ -824,7 +937,11 @@
         }
     }, true);
 
-    function pasteTextOnly(event) { event.preventDefault(); openSalesModal(); }
+    function pasteTextOnly(event) { 
+        if (currentVersion === 'free') return;
+        event.preventDefault(); 
+        openSalesModal(); 
+    }
     // --- FIM BLOQUEIO ---
 
     function openRecadoModal() { document.getElementById('recadoModal').style.display = 'flex'; }
@@ -863,6 +980,7 @@
     }
 
     function generateHarmonicPalette() {
+        if(currentVersion === 'free') return;
         document.getElementById('editableTable').classList.remove('jane-austen-mode');
         const baseHex = document.getElementById('basePaletteColor').value;
         const hsl = hexToHSL(baseHex);
@@ -880,6 +998,8 @@
             titleColor: baseHex,
             footerColor: baseHex
         };
+
+        activeStripedColor = colors.stripedColor;
 
         for (let id in colors) {
             const input = document.getElementById(id);
@@ -911,7 +1031,7 @@
                     footerColor: document.getElementById('footerColor').value,
                     headerBgColor: document.getElementById('headerBgColor').value,
                     headerTextColor: document.getElementById('headerTextColor').value,
-                    stripedColor: document.getElementById('stripedColor').value,
+                    stripedColor: activeStripedColor,
                     fontFamily: document.getElementById('fontFamily').value,
                     hasTitle: document.getElementById('hasTitle').checked,
                     hasFooter: document.getElementById('hasFooter').checked,
@@ -947,7 +1067,8 @@
             document.querySelector('#editableTable tbody').innerHTML = data.tableBody;
             for (let key in data.settings) {
                 const el = document.getElementById(key);
-                if (el) {
+                if (key === 'stripedColor') { activeStripedColor = data.settings[key]; }
+                else if (el) {
                     if (el.type === 'checkbox') el.checked = data.settings[key];
                     else el.value = data.settings[key];
                 }
@@ -999,6 +1120,7 @@
     }
 
     function undoMerge() {
+        if(currentVersion === 'free') return;
         if (historyStack.length === 0) {
             alert("Não há ações recentes para desfazer!");
             return;
@@ -1023,15 +1145,20 @@
     function applyPreset(presetName) {
         const preset = presets[presetName];
         const table = document.getElementById('editableTable');
-        if (presetName === 'mentaSuave') table.classList.add('jane-austen-mode');
+        
+        if (presetName === 'mentaSuave' && currentVersion === 'premium') table.classList.add('jane-austen-mode');
         else table.classList.remove('jane-austen-mode');
+
         Object.keys(preset).forEach(key => {
             const element = document.getElementById(key);
-            if (element) {
+            if (key === 'stripedColor') { activeStripedColor = preset[key]; }
+            else if (element) {
                 element.value = preset[key];
                 if (element.type === 'color') {
-                    document.getElementById(key + 'Code').textContent = element.value;
-                    document.getElementById(key + 'Preview').style.backgroundColor = element.value;
+                    const codeLabel = document.getElementById(key + 'Code');
+                    const previewBox = document.getElementById(key + 'Preview');
+                    if(codeLabel) codeLabel.textContent = element.value;
+                    if(previewBox) previewBox.style.backgroundColor = element.value;
                 }
             }
         });
@@ -1039,11 +1166,32 @@
         persistData();
     }
 
-    function updateColorDisplay(input) { document.getElementById(input.id + 'Code').textContent = input.value; document.getElementById(input.id + 'Preview').style.backgroundColor = input.value; applyStyles(); persistData(); }
-    function toggleStripedOptions() { document.getElementById('stripedColorGroup').style.display = document.getElementById('stripedRows').checked ? 'block' : 'none'; applyStyles(); persistData(); }
+    function updateColorDisplay(input) { 
+        if(currentVersion === 'free') return;
+        document.getElementById(input.id + 'Code').textContent = input.value; 
+        document.getElementById(input.id + 'Preview').style.backgroundColor = input.value; 
+        applyStyles(); 
+        persistData(); 
+    }
+    
+    function toggleStripedOptions() { 
+        applyStyles(); 
+        persistData(); 
+    }
     
     function applyStyles() {
-        const fontFamily = document.getElementById('fontFamily').value;
+        let fontFamily = document.getElementById('fontFamily').value;
+        if(currentVersion === 'free') {
+            fontFamily = "Arial, sans-serif";
+            document.documentElement.style.setProperty('--tabela-border-width', '1px');
+            document.documentElement.style.setProperty('--tabela-border-style', 'solid');
+            document.documentElement.style.setProperty('--tabela-border-radius', '0px');
+        } else {
+            document.documentElement.style.setProperty('--tabela-border-width', document.getElementById('borderWeight').value + 'px');
+            document.documentElement.style.setProperty('--tabela-border-style', document.getElementById('borderStyle').value);
+            document.documentElement.style.setProperty('--tabela-border-radius', document.getElementById('borderRadius').value + 'px');
+        }
+
         document.documentElement.style.setProperty('--fonte-tabela', fontFamily);
         document.documentElement.style.setProperty('--cor-fundo-pagina', document.getElementById('bgPage').value);
         document.documentElement.style.setProperty('--cor-fundo-tabela', document.getElementById('bgCells').value);
@@ -1074,10 +1222,9 @@
         if (oldStyle) oldStyle.remove();
         if (stripedRows) {
             table.classList.add('striped-rows');
-            const stripedColor = document.getElementById('stripedColor').value;
             const style = document.createElement('style');
             style.id = 'custom-striped-style';
-            style.textContent = `.striped-rows tr:nth-child(even) td:not(.col-first) { background-color: ${stripedColor} !important; }`;
+            style.textContent = `.striped-rows tr:nth-child(even) td:not(.col-first) { background-color: ${activeStripedColor} !important; }`;
             document.head.appendChild(style);
         } else { table.classList.remove('striped-rows'); }
     }
@@ -1106,7 +1253,16 @@
     function removeRow() { if (document.querySelector('#editableTable tbody').rows.length > 1) { document.querySelector('#editableTable tbody').deleteRow(-1); checkMergedCells(); updateFirstColumnStyles(); persistData(); } }
     function removeColumn() { if (document.querySelector('#editableTable thead tr').cells.length > 1) { document.querySelector('#editableTable thead tr').deleteCell(-1); document.querySelectorAll('#editableTable tbody tr').forEach(row => row.deleteCell(-1)); checkMergedCells(); updateFirstColumnStyles(); persistData(); } }
     function toggleTitle() { document.getElementById('customTitle').style.display = document.getElementById('hasTitle').checked ? 'block' : 'none'; persistData(); }
-    function toggleFooter() { document.getElementById('customFooter').style.display = document.getElementById('hasFooter').checked ? 'block' : 'none'; persistData(); }
+    
+    function toggleFooter() { 
+        if(currentVersion === 'free') {
+            document.getElementById('hasFooter').checked = true;
+            document.getElementById('customFooter').style.display = 'block';
+        } else {
+            document.getElementById('customFooter').style.display = document.getElementById('hasFooter').checked ? 'block' : 'none'; 
+        }
+        persistData(); 
+    }
     
     function updateFirstColumnStyles() {
         const grid = mapTableGrid();
@@ -1136,7 +1292,7 @@
     }
 
     table.addEventListener('mousedown', startLongPress);
-    table.addEventListener('touchstart', startLongPress);
+    table.addEventListener('touchstart', startLongPress, {passive: true});
     document.addEventListener('mouseup', cancelLongPress);
     document.addEventListener('touchend', cancelLongPress);
     
@@ -1147,6 +1303,7 @@
     });
 
     function startLongPress(e) {
+        if (currentVersion === 'free') return; // Desabilitar mescla na versão gratuita
         if (isSelectionModeActive) return; 
         if (e.target.tagName !== 'TD' && e.target.tagName !== 'TH') return;
         const cell = e.target.closest('th, td'); if (!cell) return;
@@ -1285,6 +1442,7 @@
     }
 
     function formatSelection(cmd, val = null) {
+        if(currentVersion === 'free') return;
         const selection = window.getSelection();
         if (selection.rangeCount > 0) {
             document.execCommand(cmd, false, val);
@@ -1304,6 +1462,7 @@
     }
 
     function updateBorders() {
+        if(currentVersion === 'free') return;
         const radius = document.getElementById('borderRadius').value;
         const weight = document.getElementById('borderWeight').value;
         const style = document.getElementById('borderStyle').value;
@@ -1316,6 +1475,7 @@
     }
 
     function toggleNeon(type) {
+        if(currentVersion === 'free') return;
         const isChecked = document.getElementById('neon' + type.charAt(0).toUpperCase() + type.slice(1)).checked;
         if (type === 'table') document.getElementById('editableTable').classList.toggle('neon-tabela', isChecked);
         if (type === 'title') document.getElementById('customTitle').classList.toggle('neon-titulo', isChecked);
@@ -1324,6 +1484,7 @@
     }
 
     function exportPDF() {
+        if(currentVersion === 'free') return;
         captureTableImage().then(() => {
             const isLandscape = tableCanvasObj.width > tableCanvasObj.height;
             const pdfWindow = window.open('', '_blank');
@@ -1375,10 +1536,12 @@
             } 
         }
         document.body.addEventListener('input', (e) => { if (e.target.hasAttribute('contenteditable')) { persistData(); } });
+        switchVersion('premium'); // Inicializa na versão premium de teste
     };
 </script>
 </body>
 </html>
+
 
 
 
